@@ -1,11 +1,16 @@
 <template>
-  <div class="item">
-    <div class="amount">
-      {{ amount < 0 ? '-' : '+' }}{{ Math.abs(amount).toLocaleString() }} 원
+  <div class="flex items-center gap-4 p-3 bg-white rounded-xl shadow-sm">
+    <div
+      class="w-10 h-10 flex items-center justify-center bg-rose-100 rounded-full"
+    >
+      <img class="w-5 h-5" :src="iconSrc" alt="아이콘" />
     </div>
-    <!-- 금액 표시, 음수면 '-' 붙이고 절댓값 표시 -->
-    <div class="desc">{{ description }}</div>
-    <!-- 거래 설명 표시 -->
+    <div class="flex-1">
+      <p class="text-base font-semibold text-gray-900">
+        -{{ tx.amount.toLocaleString() }} 원
+      </p>
+      <p class="text-sm text-gray-500">{{ memoText }}</p>
+    </div>
   </div>
 </template>
 
@@ -13,26 +18,27 @@
 export default {
   name: 'TransactionItem',
   props: {
-    amount: Number, // 거래 금액
-    description: String, // 거래 설명 (예: 내 카카오머니 → 송금)
+    tx: Object,
+  },
+  computed: {
+    iconSrc() {
+      // 카테고리 기반으로 확장도 가능하게 구조화
+      const iconMap = {
+        식비: 'food.png',
+        교통: 'move.png',
+        취미: 'hobby.png',
+        쇼핑: 'shopping.png',
+
+        // 필요시 더 추가
+      }
+      const fileName = iconMap[this.tx.categoryName] || 'default.png'
+      return new URL(`../icons/${fileName}`, import.meta.url).href
+    },
+    memoText() {
+      return this.tx.memo && this.tx.memo.trim() !== ''
+        ? this.tx.memo
+        : '내 카카오페이 → 송금'
+    },
   },
 }
 </script>
-
-<style scoped>
-.item {
-  background-color: #fff;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-.amount {
-  font-weight: bold;
-  color: #e74c3c; /* 빨간색 계열 */
-}
-.desc {
-  font-size: 0.9rem;
-  color: #666;
-}
-</style>

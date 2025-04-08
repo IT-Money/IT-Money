@@ -5,12 +5,12 @@
       <div class="text-section">
         <p class="title">{{ title }}</p>
         <p class="amount">{{ amount.toLocaleString() }}원</p>
-        <span class="count-badge">총 {{ date }}</span>
+        <span class="count-badge">총 {{ date }}회</span>
       </div>
 
       <!-- 오른쪽: 원형 아이콘 -->
       <div class="icon-section">
-        <img class="icon-image" src="../icons/food.png" alt="아이콘" />
+        <img class="icon-image" src="@/icons/food.png" alt="아이콘" />
       </div>
     </div>
   </div>
