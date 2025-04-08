@@ -38,6 +38,9 @@ body {
 li {
   list-style: none;
 }
+a {
+  text-decoration: none;
+}
 
 #app {
   width: 80%;
