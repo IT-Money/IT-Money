@@ -9,11 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-<<<<<<< HEAD
     "db": "json-server --watch wallet_db.json --port 5001"
-=======
-    "db": "json-server --watch wallet_db.json --port 5000"
->>>>>>> 2192d8fce6351f67eb4db6096e5b560d28a4f314
   },
   "dependencies": {
     "axios": "^1.8.4",
