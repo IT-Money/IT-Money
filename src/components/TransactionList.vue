@@ -18,24 +18,26 @@
 export default {
   name: 'TransactionItem',
   props: {
-    tx: Object,
+    tx: Object, // 부모에서 하나의 거래 객체(tx)를 props로 받음
+    // tx는 거래 내역 하나의 정보
   },
   computed: {
     iconSrc() {
       // 카테고리 기반으로 확장도 가능하게 구조화
       const iconMap = {
         식비: 'food.png',
-        교통: 'transport.png',
-        문화: 'culture.png',
-        // 필요시 더 추가
+        교통: 'move.png',
+        쇼핑: 'shopping.png',
+        취미: 'hobby.png',
+        교육: 'education.png',
+        카테고리없음: 'none.png',
+        월급: 'income.png',
       }
       const fileName = iconMap[this.tx.categoryName] || 'default.png'
       return new URL(`../assets/icons/${fileName}`, import.meta.url).href
     },
     memoText() {
-      return this.tx.memo && this.tx.memo.trim() !== ''
-        ? this.tx.memo
-        : '내 카카오페이 → 송금'
+      return this.tx.memo && this.tx.memo.trim() !== '' ? this.tx.memo : ' '
     },
   },
 }
