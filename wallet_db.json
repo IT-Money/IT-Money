@@ -3,10 +3,10 @@
     { "id": 1, "categoryName": "식비" },
     { "id": 2, "categoryName": "쇼핑" },
     { "id": 3, "categoryName": "취미" },
-    { "id": 4, "categoryName": "4" },
+    { "id": 4, "categoryName": "교통" },
     { "id": 5, "categoryName": "교육" },
-    { "id": 6, "categoryName": "6" },
-    { "id": 7, "categoryName": "7" }
+    { "id": 6, "categoryName": "카테고리없음" },
+    { "id": 7, "categoryName": "월급" }
   ],
   "types": [
     { "id": 1, "typeName": "expense" },
