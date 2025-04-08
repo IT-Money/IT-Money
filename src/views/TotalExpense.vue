@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <router-view></router-view>
+  <div>total_expense</div>
 </template>
 
 <style scoped></style>

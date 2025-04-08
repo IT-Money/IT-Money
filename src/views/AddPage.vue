@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <router-view></router-view>
+  <div>add_page</div>
 </template>
 
 <style scoped></style>
