@@ -1,0 +1,353 @@
+{
+  "categories": [
+    { "id": 1, "categoryName": "식비" },
+    { "id": 2, "categoryName": "쇼핑" },
+    { "id": 3, "categoryName": "취미" },
+    { "id": 4, "categoryName": "교통" },
+    { "id": 5, "categoryName": "교육" },
+    { "id": 6, "categoryName": "카테고리없음" },
+    { "id": 7, "categoryName": "월급" }
+  ],
+  "types": [
+    { "id": 1, "typeName": "expense" },
+    { "id": 2, "typeName": "income" }
+  ],
+  "transactions": [
+    {
+      "id": 1744014600000,
+      "dateTime": "2025-04-07T08:30:00",
+      "amount": 3500,
+      "memo": "",
+      "categoryId": "1",
+      "typeId": "1"
+    },
+    {
+      "id": 1744029900000,
+      "dateTime": "2025-04-07T12:45:00",
+      "amount": 12000,
+      "memo": "",
+      "categoryId": "1",
+      "type": "1"
+    },
+    {
+      "id": 1743966000000,
+      "dateTime": "2025-04-06T19:00:00",
+      "amount": 45000,
+      "memo": "",
+      "category": "2",
+      "type": "1"
+    },
+    {
+      "id": 1743949200000,
+      "dateTime": "2025-04-06T14:20:00",
+      "amount": 9000,
+      "memo": "",
+      "category": "3",
+      "type": "1"
+    },
+    {
+      "id": 1743844500000,
+      "dateTime": "2025-04-05T09:15:00",
+      "amount": 2000,
+      "memo": "",
+      "category": "4",
+      "type": "1"
+    },
+    {
+      "id": 1743784200000,
+      "dateTime": "2025-04-04T16:30:00",
+      "amount": 30000,
+      "memo": "",
+      "category": "5",
+      "type": "1"
+    },
+    {
+      "id": 1743703200000,
+      "dateTime": "2025-04-03T18:00:00",
+      "amount": 15000,
+      "memo": "",
+      "category": "6",
+      "type": "1"
+    },
+    {
+      "id": 1743685200000,
+      "dateTime": "2025-04-03T13:00:00",
+      "amount": 11000,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1743625800000,
+      "dateTime": "2025-04-02T20:30:00",
+      "amount": 8500,
+      "memo": "",
+      "category": "3",
+      "type": "1"
+    },
+    {
+      "id": 1743493800000,
+      "dateTime": "2025-04-01T07:50:00",
+      "amount": 3000,
+      "memo": "",
+      "category": "4",
+      "type": "1"
+    },
+    {
+      "id": 1741515300000,
+      "dateTime": "2025-03-09T10:15:00",
+      "amount": 27100,
+      "memo": "",
+      "category": "5",
+      "type": "1"
+    },
+    {
+      "id": 1743191100000,
+      "dateTime": "2025-03-28T19:45:00",
+      "amount": 8800,
+      "memo": "",
+      "category": "6",
+      "type": "1"
+    },
+    {
+      "id": 1741970700000,
+      "dateTime": "2025-03-14T16:45:00",
+      "amount": 13600,
+      "memo": "",
+      "category": "5",
+      "type": "1"
+    },
+    {
+      "id": 1742733000000,
+      "dateTime": "2025-03-23T12:30:00",
+      "amount": 49600,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1741434300000,
+      "dateTime": "2025-03-08T11:45:00",
+      "amount": 18300,
+      "memo": "",
+      "category": "4",
+      "type": "1"
+    },
+    {
+      "id": 1742380200000,
+      "dateTime": "2025-03-19T10:30:00",
+      "amount": 24000,
+      "memo": "",
+      "category": "3",
+      "type": "1"
+    },
+    {
+      "id": 1740996000000,
+      "dateTime": "2025-03-03T10:00:00",
+      "amount": 48200,
+      "memo": "",
+      "category": "4",
+      "type": "1"
+    },
+    {
+      "id": 1741198500000,
+      "dateTime": "2025-03-05T18:15:00",
+      "amount": 18800,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1742816700000,
+      "dateTime": "2025-03-24T11:45:00",
+      "amount": 23900,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1741534200000,
+      "dateTime": "2025-03-09T15:30:00",
+      "amount": 49300,
+      "memo": "",
+      "category": "2",
+      "type": "1"
+    },
+    {
+      "id": 1747248300000,
+      "dateTime": "2025-05-14T18:45:00",
+      "amount": 15500,
+      "memo": "",
+      "category": "4",
+      "type": "1"
+    },
+    {
+      "id": 1746178200000,
+      "dateTime": "2025-05-02T09:30:00",
+      "amount": 33000,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1747920600000,
+      "dateTime": "2025-05-22T13:30:00",
+      "amount": 5900,
+      "memo": "",
+      "category": "2",
+      "type": "1"
+    },
+    {
+      "id": 1746552600000,
+      "dateTime": "2025-05-06T17:30:00",
+      "amount": 22800,
+      "memo": "",
+      "category": "6",
+      "type": "1"
+    },
+    {
+      "id": 1746087300000,
+      "dateTime": "2025-05-01T08:15:00",
+      "amount": 34300,
+      "memo": "",
+      "category": "3",
+      "type": "1"
+    },
+    {
+      "id": 1747845000000,
+      "dateTime": "2025-05-21T16:30:00",
+      "amount": 25400,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1748458800000,
+      "dateTime": "2025-05-28T19:00:00",
+      "amount": 41600,
+      "memo": "",
+      "category": "1",
+      "type": "1"
+    },
+    {
+      "id": 1746731700000,
+      "dateTime": "2025-05-08T19:15:00",
+      "amount": 34800,
+      "memo": "",
+      "category": "4",
+      "type": "1"
+    },
+    {
+      "id": 1748163600000,
+      "dateTime": "2025-05-25T09:00:00",
+      "amount": 4900,
+      "memo": "",
+      "category": "2",
+      "type": "1"
+    },
+    {
+      "id": 1748290500000,
+      "dateTime": "2025-05-26T20:15:00",
+      "amount": 14800,
+      "memo": "",
+      "category": "2",
+      "type": "1"
+    },
+    {
+      "id": 1737795600000,
+      "dateTime": "2025-01-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1740474000000,
+      "dateTime": "2025-02-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1742893200000,
+      "dateTime": "2025-03-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1745571600000,
+      "dateTime": "2025-04-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1748163600000,
+      "dateTime": "2025-05-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1750842000000,
+      "dateTime": "2025-06-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1753434000000,
+      "dateTime": "2025-07-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1756112400000,
+      "dateTime": "2025-08-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1758790800000,
+      "dateTime": "2025-09-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1761382800000,
+      "dateTime": "2025-10-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1764061200000,
+      "dateTime": "2025-11-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    },
+    {
+      "id": 1766653200000,
+      "dateTime": "2025-12-25T09:00:00",
+      "amount": 5000000,
+      "memo": "",
+      "category": "7",
+      "type": "2"
+    }
+  ]
+}
