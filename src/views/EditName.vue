@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <router-view></router-view>
+  <div>edit_name</div>
 </template>
 
 <style scoped></style>

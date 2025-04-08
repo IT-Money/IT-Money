@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <router-view></router-view>
+  <div>net_income</div>
 </template>
 
 <style scoped></style>
