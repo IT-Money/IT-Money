@@ -53,15 +53,15 @@
       "dateTime": "2025-04-07T08:30:00",
       "amount": 3500,
       "memo": "아침 식사",
-      "categoryId": "1",
-      "typeId": "1"
+      "category": "1",
+      "type": "1"
     },
     {
       "id": 1744029900000,
       "dateTime": "2025-04-07T12:45:00",
       "amount": 12000,
       "memo": "점심 도시락",
-      "categoryId": "1",
+      "category": "1",
       "type": "1"
     },
     {
