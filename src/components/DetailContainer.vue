@@ -16,6 +16,7 @@ onMounted(async () => {
   category.value = categories.value.find(
     category => String(category.id) === String(transaction.value.category),
   )
+  console.log(category.value);
 })
 
 const formattedType = computed(() => {
