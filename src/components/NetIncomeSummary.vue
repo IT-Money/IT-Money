@@ -9,7 +9,7 @@
 
       <!-- 오른쪽: 아이콘 -->
       <div class="icon-section">
-        <img class="icon-image" src="@/icons/income.png" alt="순이익 아이콘" />
+        <img class="icon-image" src="@/icons/profit.png" alt="순이익 아이콘" />
       </div>
     </div>
   </div>
@@ -19,8 +19,8 @@
 export default {
   name: 'NetIncomeSummary',
   props: {
-    year: Number,
-    month: Number,
+    year: [Number, String],
+    month: [Number, String],
     netAmount: Number, // 순이익 금액
   },
 }
