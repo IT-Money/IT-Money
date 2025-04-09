@@ -81,7 +81,7 @@ const memo = computed(() => {
 <style scoped>
 .DetailContainer {
   width: 85%;
-  height: 400px;
+  height: 360px;
   margin: 30px auto;
   padding: var(--space-m);
   background-color: #ffffff;
@@ -114,7 +114,7 @@ const memo = computed(() => {
 .DetailContainer .info > .memo {
   background-color: var(--gray200);
   width: 100%;
-  height: 130px;
+  height: 90px;
   border-radius: var(--space-m);
   padding: var(--space-m);
   font-weight: 400;
