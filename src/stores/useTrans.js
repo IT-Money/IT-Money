@@ -48,7 +48,7 @@ export default function useTrans() {
     for (const [eachMonth, trans] of Object.entries(
       monthlyTransactions.value,
     )) {
-      group[eachMonth] = trans.filter(tran => tran.type === '1')
+      group[eachMonth] = trans.filter(tran => String(tran.type) === '1')
     }
     return group
   })
@@ -58,7 +58,7 @@ export default function useTrans() {
     const group = {}
     console.log('총수입 computed 실행됨')
     for (const [eachMonth, trans] of Object.entries(monthlyTransactions.value))
-      group[eachMonth] = trans.filter(tran => tran.type === '2')
+      group[eachMonth] = trans.filter(tran => String(tran.type) === '2')
     return group
   })
 

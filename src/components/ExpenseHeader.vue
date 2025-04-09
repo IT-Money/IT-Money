@@ -27,7 +27,10 @@ onMounted(() => {
           }}원
         </p>
         <span class="count-badge"
-          >총 {{ trans.monthlyExpense.value[trans.nowMonth.value] }}회</span
+          >총
+          {{
+            trans.monthlyExpense.value[trans.currentMonth.value]?.length || 0
+          }}회</span
         >
       </div>
 
