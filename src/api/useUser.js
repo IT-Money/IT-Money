@@ -20,3 +20,10 @@ export const useUser = () => {
 
   return { userName, userEmail, userPassword, fetchUser }
 }
+
+export const updateUserNameOnServer = async newName => {
+  const response = await axios.patch('/user/1', {
+    name: newName,
+  })
+  return response
+}
