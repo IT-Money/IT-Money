@@ -1,7 +1,9 @@
-<script setup></script>
+<script setup>
+import DetailContainer from '@/components/DetailContainer.vue'
+</script>
 
 <template>
-  <div>detail_view</div>
+  <DetailContainer />
 </template>
 
 <style scoped></style>
