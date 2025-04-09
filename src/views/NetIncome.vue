@@ -76,9 +76,9 @@ console.log('✅ 지출:', expenseList.value)
 
 <style scoped>
 .net-income-page {
-  max-height: 100vh;
+  height: 70vh; /* max-height 대신 명확하게 */
   overflow-y: auto;
-  overflow-x: hidden
-  padding: 16px;
+  overflow-x: hidden;
+  padding: 8px;
 }
 </style>
