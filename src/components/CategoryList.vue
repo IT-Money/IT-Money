@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { ref,computed } from 'vue'
 import axios from 'axios'
 
@@ -36,4 +36,4 @@ const
 .categoryItem {
   display: flex;
 }
-</style> -->
+</style>
