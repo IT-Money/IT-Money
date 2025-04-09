@@ -17,7 +17,7 @@ onMounted(() => {
       <!-- 왼쪽: 텍스트 정보 -->
       <div class="text-section">
         <p class="title">
-          {{ trans.nowYear.value }}년 {{ trans.nowMonth.value }}월
+          {{ trans.nowYear.value }}년 {{ trans.nowMonth.value }}월 총지출
         </p>
         <p class="amount">
           {{
@@ -96,7 +96,7 @@ onMounted(() => {
 }
 
 .icon-image {
-  width: 24px;
-  height: 24px;
+  width: 48px;
+  height: 48px;
 }
 </style>

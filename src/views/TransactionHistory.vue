@@ -18,4 +18,8 @@ onMounted(() => {
   <MonthlyCategory /> -->
 </template>
 
-<style scoped></style>
+<style scoped>
+* {
+  background-color: var(--blue400);
+}
+</style>

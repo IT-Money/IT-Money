@@ -13,11 +13,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <i class="fa-solid fa-angle-left"></i>
-    <span>{{ trans.nowMonth }}월 </span>
-    <i class="fa-solid fa-angle-right"></i>
-    <p>
+  <div class="header_con">
+    <div class="header_top">
+      <i class="fa-solid fa-angle-left"></i>
+      <span>{{ trans.nowMonth }}월 </span>
+      <i class="fa-solid fa-angle-right"></i>
+    </div>
+    <p class="header_btm">
       {{
         count.useMonthlyAmount(
           trans.monthlyExpense.value[trans.currentMonth.value],
@@ -29,17 +31,24 @@ onMounted(() => {
 </template>
 
 <style scoped>
-* {
-  background-color: aqua;
-}
-div > * {
-  margin: var(--space-s);
-}
-div {
-  margin-top: var(--space-l);
-  margin-left: var(--space-l);
-}
-.fa-solid {
+.header_con {
+  background-color: var(--blue400);
+  padding: 16px 24px;
   color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.header_top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header_btm {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-left: 8px;
 }
 </style>
