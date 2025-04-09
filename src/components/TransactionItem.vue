@@ -1,16 +1,18 @@
 <template>
   <div
-    class="bg-white shadow rounded-2xl px-4 py-3 flex items-center space-x-4"
+    class="bg-white shadow-md rounded-2xl px-4 py-3 flex items-center space-x-4"
   >
     <!-- 아이콘 -->
-    <img :src="iconSrc" alt="아이콘" class="w-10 h-10 rounded-full" />
+    <img :src="iconSrc" alt="icon" class="w-10 h-10 rounded-full" />
 
-    <!-- 내용 -->
+    <!-- 거래 내용 -->
     <div class="flex-1">
       <div class="text-gray-900 font-semibold text-base">
         -{{ tx.amount.toLocaleString() }} 원
       </div>
-      <div class="text-gray-500 text-sm">{{ memoText }}</div>
+      <div class="text-gray-500 text-sm">
+        {{ tx.memo || ' ' }}
+      </div>
     </div>
   </div>
 </template>
@@ -21,7 +23,6 @@ export default {
   props: {
     tx: {
       type: Object,
-      required: true,
     },
   },
   computed: {
