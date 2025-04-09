@@ -1,5 +1,5 @@
 <template>
-  <div class="transaction-list">
+  <div class="transaction-list" style="margin-top: 16px">
     <TransactionGroup
       v-for="(transactions, date) in groupedTransactions"
       :key="date"
