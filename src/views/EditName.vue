@@ -1,13 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
 const newName = ref('')
-const changeName = () => {
+
+onMounted(() => {
+  userStore.fetchUser()
+})
+
+const changeName = async () => {
   if (!newName.value) return
-  userStore.updateName(newName.value)
-  newName.value = ' '
+  await userStore.updateName(newName.value) // 서버 + 상태 변경
+  newName.value = ''
 }
 </script>
 
@@ -15,7 +20,12 @@ const changeName = () => {
   <div class="edit-name-container">
     <div class="input-group">
       <label for="current-name">현재 이름</label>
-      <input id="current-name" type="text" :value="userStore.name" readonly />
+      <input
+        id="current-name"
+        type="text"
+        :value="userStore.userName"
+        readonly
+      />
       <!-- 현재 이름 저장소에서 가져오고 수정불가하게 만들기 -->
     </div>
 
