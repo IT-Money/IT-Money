@@ -1,18 +1,9 @@
 <template>
-  <div
-    class="bg-white shadow-md rounded-2xl px-4 py-3 flex items-center space-x-4"
-  >
-    <!-- 아이콘 -->
-    <img :src="iconSrc" alt="icon" class="w-10 h-10 rounded-full" />
-
-    <!-- 거래 내용 -->
-    <div class="flex-1">
-      <div class="text-gray-900 font-semibold text-base">
-        -{{ tx.amount.toLocaleString() }} 원
-      </div>
-      <div class="text-gray-500 text-sm">
-        {{ tx.memo || ' ' }}
-      </div>
+  <div class="transaction-item" :class="{ 'no-divider': isLast }">
+    <img :src="iconSrc" class="icon" alt="category icon" />
+    <div class="info">
+      <p class="amount">-{{ tx.amount.toLocaleString() }} 원</p>
+      <p class="memo">{{ tx.memo || ' ' }}</p>
     </div>
   </div>
 </template>
@@ -23,6 +14,11 @@ export default {
   props: {
     tx: {
       type: Object,
+      required: true,
+    },
+    isLast: {
+      type: Boolean,
+      default: false, // 기본값은 false로
     },
   },
   computed: {
@@ -49,3 +45,44 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.transaction-item.no-divider {
+  border-bottom: none;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background-color: #f76d82;
+  padding: 6px;
+  margin-right: 12px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.amount {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+}
+
+.memo {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+</style>
