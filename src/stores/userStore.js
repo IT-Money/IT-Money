@@ -1,30 +1,29 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { useUser } from '@/api/useUser'
 
 export const useUserStore = defineStore('userStore', () => {
   // 상태
-  const name = ref('홍길동')
-  const email = ref('abcde@gmail.com')
-  const password = ref('rlfehd0408')
+  const { userName, userEmail, userPassword, fetchUser } = useUser()
 
   const updateName = newName => {
-    name.value = newName
+    userName.value = newName
   }
 
   const updateEmail = newEmail => {
-    email.value = newEmail
+    userEmail.value = newEmail
   }
 
   const updatePassword = newPassword => {
-    password.value = newPassword
+    userPassword.value = newPassword
   }
 
   return {
-    name,
-    email,
-    password,
+    userName,
+    userEmail,
+    userPassword,
     updateName,
     updateEmail,
     updatePassword,
+    fetchUser,
   }
 })
