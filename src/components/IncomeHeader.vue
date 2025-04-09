@@ -8,7 +8,6 @@ const count = useCount()
 
 onMounted(() => {
   trans.fetchTransactions()
-  console.log('trans.monthlyIncome.value[trans.currentMonth]')
 })
 </script>
 
@@ -17,22 +16,27 @@ onMounted(() => {
     <div class="summary-content">
       <!-- 왼쪽: 텍스트 정보 -->
       <div class="text-section">
-        <p class="title">{{ trans.nowYear }}년 {{ trans.nowMonth }}월</p>
+        <p class="title">
+          {{ trans.nowYear.value }}년 {{ trans.nowMonth.value }}월
+        </p>
         <p class="amount">
           {{
             count.useMonthlyAmount(
-              trans.monthlyIncome.value[trans.currentMonth],
+              trans.monthlyIncome.value[trans.currentMonth.value],
             )
           }}원
         </p>
         <span class="count-badge"
-          >총 {{ trans.monthlyIncome.value[trans.currentMonth].length }}회</span
+          >총
+          {{
+            trans.monthlyIncome.value[trans.currentMonth.value].length
+          }}회</span
         >
       </div>
 
       <!-- 오른쪽: 원형 아이콘 -->
       <div class="icon-section">
-        <img class="icon-image" src="@/icons/food.png" alt="아이콘" />
+        <img class="icon-image" src="@/icons/income.png" alt="아이콘" />
       </div>
     </div>
   </div>

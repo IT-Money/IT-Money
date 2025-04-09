@@ -3,9 +3,13 @@ import { ref, computed } from 'vue'
 
 export default function useTrans() {
   // 달 설정
-  const currentMonth = new Date().toISOString().substring(0, 7) //"2025-04"
-  const nowYear = currentMonth.substring(0, 4)
-  const nowMonth = currentMonth.substring(6)
+  const currentDate = computed(() => {
+    return new Date().toISOString()
+  })
+  // const currentMonth = new Date().toISOString().substring(0, 7) //"2025-04"
+  const nowYear = computed(() => currentDate.value.substring(0, 4))
+  const nowMonth = computed(() => currentDate.value.substring(5, 7))
+  const currentMonth = computed(() => currentDate.value.substring(0, 7))
   // transactions: 변수 할당
   const transactions = ref([])
   const error = ref(null)
@@ -71,5 +75,6 @@ export default function useTrans() {
     currentMonth,
     nowMonth,
     nowYear,
+    currentDate,
   }
 }

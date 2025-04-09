@@ -8,6 +8,7 @@ const count = useCount()
 
 onMounted(() => {
   trans.fetchTransactions()
+  console.log('currentMonth값', trans.currentMonth)
 })
 </script>
 
@@ -18,7 +19,9 @@ onMounted(() => {
     <i class="fa-solid fa-angle-right"></i>
     <p>
       {{
-        count.useMonthlyAmount(trans.monthlyExpense.value[trans.currentMonth])
+        count.useMonthlyAmount(
+          trans.monthlyExpense.value[trans.currentMonth.value],
+        )
       }}
       원
     </p>
