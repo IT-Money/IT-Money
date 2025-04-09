@@ -10,41 +10,55 @@
   "categories": [
     {
       "id": 1,
-      "categoryName": "식비"
+      "categoryName": "식비",
+      "image": "@/icons/food.png"
     },
     {
       "id": 2,
-      "categoryName": "쇼핑"
+      "categoryName": "쇼핑",
+      "image": "@/icons/shopping.png"
     },
     {
       "id": 3,
-      "categoryName": "취미"
+      "categoryName": "취미",
+      "image": "@/icons/hobby.png"
     },
     {
       "id": 4,
-      "categoryName": "교통"
+      "categoryName": "교통",
+      "image": "@/icons/move.png"
     },
     {
       "id": 5,
-      "categoryName": "교육"
+      "categoryName": "교육",
+      "image": "@/icons/education.png"
     },
     {
       "id": 6,
-      "categoryName": "카테고리없음"
+      "categoryName": "카테고리없음",
+      "image": "@/icons/none.png"
     },
     {
       "id": 7,
-      "categoryName": "월급"
+      "categoryName": "월급",
+      "image": "@/icons/income.png"
     }
   ],
   "types": [
     {
       "id": 1,
-      "typeName": "expense"
+      "typeName": "expense",
+      "image": "@/icons/expence.png"
     },
     {
       "id": 2,
-      "typeName": "income"
+      "typeName": "income",
+      "image": "@/icons/income.png"
+    },
+    {
+      "id": 3,
+      "typeName": "profit",
+      "image": "@/icons/profit.png"
     }
   ],
   "transactions": [
