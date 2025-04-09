@@ -35,7 +35,7 @@ const formattedAmount = computed(() => {
 const formattedDate = computed(() => {
   if (transaction.value) {
     const date = new Date(transaction.value.dateTime)
-    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}:${date.getMinutes()}`
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`
   }
   return ''
 })
