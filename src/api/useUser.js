@@ -22,7 +22,7 @@ export const useUser = () => {
 }
 
 export const updateUserNameOnServer = async newName => {
-  const response = await axios.patch('/user/1', {
+  const response = await axios.patch('/users/1', {
     name: newName,
   })
   return response
