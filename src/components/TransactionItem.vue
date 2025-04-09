@@ -1,15 +1,16 @@
 <template>
-  <div class="flex items-center gap-4 p-3 bg-white rounded-xl shadow-sm">
-    <div
-      class="w-10 h-10 flex items-center justify-center bg-rose-100 rounded-full"
-    >
-      <img class="w-5 h-5" :src="iconSrc" alt="아이콘" />
-    </div>
+  <div
+    class="bg-white shadow rounded-2xl px-4 py-3 flex items-center space-x-4"
+  >
+    <!-- 아이콘 -->
+    <img :src="iconSrc" alt="아이콘" class="w-10 h-10 rounded-full" />
+
+    <!-- 내용 -->
     <div class="flex-1">
-      <p class="text-base font-semibold text-gray-900">
+      <div class="text-gray-900 font-semibold text-base">
         -{{ tx.amount.toLocaleString() }} 원
-      </p>
-      <p class="text-sm text-gray-500">{{ memoText }}</p>
+      </div>
+      <div class="text-gray-500 text-sm">{{ memoText }}</div>
     </div>
   </div>
 </template>
@@ -18,26 +19,31 @@
 export default {
   name: 'TransactionItem',
   props: {
-    tx: Object,
+    tx: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     iconSrc() {
-      // 카테고리 기반으로 확장도 가능하게 구조화
       const iconMap = {
         식비: 'food.png',
         교통: 'move.png',
-        취미: 'hobby.png',
         쇼핑: 'shopping.png',
-
-        // 필요시 더 추가
+        취미: 'hobby.png',
+        교육: 'education.png',
+        월급: 'income.png',
+        카테고리없음: 'none.png',
       }
-      const fileName = iconMap[this.tx.categoryName] || 'default.png'
+
+      const category = this.tx?.categoryName || '카테고리없음'
+      const fileName = iconMap[category] || 'none.png'
+
       return new URL(`../icons/${fileName}`, import.meta.url).href
     },
+
     memoText() {
-      return this.tx.memo && this.tx.memo.trim() !== ''
-        ? this.tx.memo
-        : '내 카카오페이 → 송금'
+      return this.tx?.memo?.trim() !== '' ? this.tx.memo : ' '
     },
   },
 }

@@ -37,39 +37,51 @@ export default {
       const now = new Date()
       const currentYear = now.getFullYear()
       const currentMonth = now.getMonth() + 1 // 0부터 시작하므로 +1 필요
-      console.log('📅 현재 연도:', currentYear)
-      console.log('📅 현재 월:', currentMonth)
 
       // id 모두 문자열로 변환
       const 식비Id = String(식비.id)
       const 지출Id = String(지출.id)
 
       // 거래 내역 필터링
-      const result = wallet.transactions.filter(tx => {
-        // 카테고리와 타입이 문자열로 변환된 id와 일치하는지 확인
-        const txCategory = tx.category ?? tx.categoryId
-        const txType = tx.type ?? tx.typeId
+      const result = wallet.transactions
+        .filter(tx => {
+          // 카테고리와 타입이 문자열로 변환된 id와 일치하는지 확인
+          const txCategory = tx.category ?? tx.categoryId
+          const txType = tx.type ?? tx.typeId
 
-        // 날짜 파싱 후 현재 연/월과 비교
-        const txDate = new Date(tx.dateTime)
-        const txYear = txDate.getFullYear()
-        const txMonth = txDate.getMonth() + 1
+          // 날짜 파싱 후 현재 연/월과 비교
+          const txDate = new Date(tx.dateTime)
+          const txYear = txDate.getFullYear()
+          const txMonth = txDate.getMonth() + 1
 
-        const isThisMonth = txYear === currentYear && txMonth === currentMonth
+          const isThisMonth = txYear === currentYear && txMonth === currentMonth
 
-        return (
-          String(txCategory) === 식비Id &&
-          String(txType) === 지출Id &&
-          isThisMonth
-        )
-      })
+          return (
+            String(txCategory) === 식비Id &&
+            String(txType) === 지출Id &&
+            isThisMonth
+          )
+        })
+
+        .map(tx => {
+          // categoryName 추가
+          const categoryId = String(tx.category ?? tx.categoryId)
+          const category = wallet.categories.find(
+            c => String(c.id) === categoryId,
+          )
+
+          return {
+            ...tx,
+            categoryName: category?.categoryName || '카테고리없음',
+          }
+        })
 
       console.log('🍱 4월 식비 지출 내역:', result)
       return result
     },
 
     /**
-     * 🔍 2. 필터링된 거래 내역의 총 금액과 건수를 계산
+     * 2. 필터링된 거래 내역의 총 금액과 건수를 계산
      * - 금액: 거래 내역의 amount 속성의 합계
      * - 건수: 거래 내역의 개수
      */
@@ -82,7 +94,7 @@ export default {
       return sum
     },
     /**
-     * 🔍 3. 필터링된 거래 내역의 총 건수를 계산
+     *  3. 필터링된 거래 내역의 총 건수를 계산
      * - 건수: 거래 내역의 개수
      */
 

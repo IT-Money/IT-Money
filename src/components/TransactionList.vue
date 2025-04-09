@@ -1,44 +1,74 @@
 <template>
-  <div class="flex items-center gap-4 p-3 bg-white rounded-xl shadow-sm">
+  <div class="space-y-6">
     <div
-      class="w-10 h-10 flex items-center justify-center bg-rose-100 rounded-full"
+      v-for="(transactions, date) in groupedTransactions"
+      :key="date"
+      class="space-y-3"
     >
-      <img class="w-5 h-5" :src="iconSrc" alt="아이콘" />
-    </div>
-    <div class="flex-1">
-      <p class="text-base font-semibold text-gray-900">
-        -{{ tx.amount.toLocaleString() }} 원
-      </p>
-      <p class="text-sm text-gray-500">{{ memoText }}</p>
+      <!-- 날짜 헤더 -->
+      <div class="text-gray-500 font-semibold text-sm px-1">
+        {{ formatDate(date) }}
+      </div>
+
+      <!-- 거래 아이템 리스트 -->
+      <div class="space-y-3">
+        <TransactionItem v-for="tx in transactions" :key="tx.id" :tx="tx" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TransactionItem from './TransactionItem.vue'
+
 export default {
-  name: 'TransactionItem',
-  props: {
-    tx: Object, // 부모에서 하나의 거래 객체(tx)를 props로 받음
-    // tx는 거래 내역 하나의 정보
+  name: 'TransactionList',
+  components: {
+    TransactionItem,
   },
-  computed: {
-    iconSrc() {
-      // 카테고리 기반으로 확장도 가능하게 구조화
-      const iconMap = {
-        식비: 'food.png',
-        교통: 'move.png',
-        쇼핑: 'shopping.png',
-        취미: 'hobby.png',
-        교육: 'education.png',
-        카테고리없음: 'none.png',
-        월급: 'income.png',
-      }
-      const fileName = iconMap[this.tx.categoryName] || 'default.png'
-      return new URL(`../assets/icons/${fileName}`, import.meta.url).href
+  props: {
+    transactions: {
+      type: Array,
+      required: true,
     },
-    memoText() {
-      return this.tx.memo && this.tx.memo.trim() !== '' ? this.tx.memo : ' '
+  },
+
+  computed: {
+    groupedTransactions() {
+      // 날짜별로 묶기
+      return this.transactions.reduce((acc, tx) => {
+        const date = tx.dateTime?.split('T')[0] || '날짜 없음'
+        if (!acc[date]) acc[date] = []
+        acc[date].push(tx)
+        return acc
+      }, {})
+    },
+  },
+  methods: {
+    formatDate(dateStr) {
+      if (dateStr === '날짜 없음') return dateStr
+
+      const date = new Date(dateStr)
+      const dayNames = [
+        '일요일',
+        '월요일',
+        '화요일',
+        '수요일',
+        '목요일',
+        '금요일',
+        '토요일',
+      ]
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const dayName = dayNames[date.getDay()]
+      return `${month}월 ${day}일 ${dayName}`
     },
   },
 }
 </script>
+
+<style scoped>
+h3 {
+  padding-left: 0.5rem;
+}
+</style>
