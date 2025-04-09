@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
-import useTrans from '@/mine/useTrans.js'
-import useCount from '@/mine/useCount.js'
+import useTrans from '@/stores/useTrans.js'
+import useCount from '@/stores/useCount.js'
 
 const trans = useTrans()
 const count = useCount()
@@ -14,7 +14,7 @@ onMounted(() => {
 <template>
   <div>
     <i class="fa-solid fa-angle-left"></i>
-    <span>{{ nowMonth }}월 </span>
+    <span>{{ trans.nowMonth }}월 </span>
     <i class="fa-solid fa-angle-right"></i>
     <p>
       {{

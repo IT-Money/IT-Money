@@ -3,7 +3,7 @@ import MonthlyHeader from '@/components/MonthlyHeader.vue'
 // import MonthlyChart from '@/components/MonthlyChart.vue'
 // import MonthlyCategory from '@/components/MonthlyCategory.vue'
 import { onMounted } from 'vue'
-import useTrans from '@/mine/useTrans'
+import useTrans from '@/stores/useTrans'
 const trans = useTrans()
 
 onMounted(() => {
