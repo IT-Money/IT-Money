@@ -15,7 +15,12 @@ const changeEmail = () => {
   <div class="edit-email-container">
     <div class="input-group">
       <label for="current-email">현재 이메일</label>
-      <input id="current-email" type="text" :value="userStore.email" readonly />
+      <input
+        id="current-email"
+        type="text"
+        :value="userStore.userEmail"
+        readonly
+      />
       <!-- 현재 이름 저장소에서 가져오고 수정불가하게 만들기 -->
     </div>
 
