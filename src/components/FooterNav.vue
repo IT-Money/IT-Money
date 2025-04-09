@@ -1,20 +1,16 @@
 <template>
   <div class="footer-wrapper">
     <nav class="footer-nav">
-      <router-link to="/" class="nav-icon">
+      <router-link to="/home" class="nav-icon">
         <i class="fa-solid fa-house"></i>
       </router-link>
-
-      <router-link to="/add-expense" class="add-button">
-        <i class="fa-solid fa-plus"></i>
-      </router-link>
-
-      <router-link to="/mypage" class="nav-icon">
+      <router-link to="/my-page" class="nav-icon">
         <i class="fa-solid fa-user"></i>
       </router-link>
-
-      <div class="bottom-bar"></div>
     </nav>
+    <router-link to="/add" class="add-button">
+      <i class="fa-solid fa-plus"></i>
+    </router-link>
   </div>
 </template>
 
@@ -23,46 +19,55 @@
 <style scoped>
 .footer-wrapper {
   position: absolute;
-  bottom: 0;
-  left: 0;
+  left: 50%;
+  top: 280px;
+  transform: translate(-50%, 335px);
   width: 100%;
-  z-index: 100;
+  max-width: 360px;
+  height: 85px;
+  background-color: white;
+  box-shadow: 0 -2px 15px rgba(16, 11, 62, 0.1);
+  z-index: 1000;
 }
 
 .footer-nav {
-  width: 100%;
-  height: 70px;
-  background-color: white;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+  padding: 0 36px;
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.nav-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 48px;
 }
 
 .nav-icon i {
-  font-size: 24px;
+  font-size: 35px;
   color: gray;
 }
 
 .add-button {
-  background-color: #3e1fc2;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 55px;
+  height: 55px;
+  background-color: var(--blue400);
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  margin-top: -80px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 28px;
+  font-size: 40px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-.bottom-bar {
-  position: absolute;
-  bottom: 8px;
-  width: 100px;
-  height: 4px;
-  background-color: #ccc;
-  border-radius: 5px;
+  z-index: 1001;
 }
 </style>

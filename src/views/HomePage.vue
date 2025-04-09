@@ -24,60 +24,68 @@ const currentData = computed(() => {
 </script>
 
 <template>
-  <div class="summary-wrapper">
-    <!-- 연도/월 셀렉트 -->
-    <div class="select-group">
-      <select v-model="selectedYear">
-        <option v-for="year in years" :key="year" :value="year">
-          {{ year }}년
-        </option>
-      </select>
-      <select v-model="selectedMonth">
-        <option v-for="month in months" :key="month" :value="month">
-          {{ month }}월
-        </option>
-      </select>
-    </div>
+  <div class="homepage">
+    <div class="summary-wrapper">
+      <!-- 연도/월 셀렉트 -->
+      <div class="select-group">
+        <select v-model="selectedYear">
+          <option v-for="year in years" :key="year" :value="year">
+            {{ year }}년
+          </option>
+        </select>
+        <select v-model="selectedMonth">
+          <option v-for="month in months" :key="month" :value="month">
+            {{ month }}월
+          </option>
+        </select>
+      </div>
 
-    <!-- 요약 카드 -->
-    <div class="summary-cards">
-      <div class="card income">
-        <div>총수입</div>
-        <div class="value-column">
-          <span>{{ currentData.income.toLocaleString() }}원</span>
+      <!-- 요약 카드 -->
+      <div class="summary-cards">
+        <div class="card income">
           <img src="@/icons/income.png" alt="총수입아이콘" class="card-icon" />
+          <div>총수입</div>
+          <div class="value-column">
+            <span>{{ currentData.income.toLocaleString() }}원</span>
+          </div>
         </div>
-      </div>
-      <div class="card expense">
-        <div>총지출</div>
-        <div class="value-column">
-          <span>{{ currentData.expense.toLocaleString() }}원</span>
+        <div class="card expense">
           <img src="@/icons/expence.png" alt="총지출아이콘" class="card-icon" />
+          <div>총지출</div>
+          <div class="value-column">
+            <span>{{ currentData.expense.toLocaleString() }}원</span>
+          </div>
         </div>
-      </div>
-      <div class="card net">
-        <div>순이익</div>
-        <div class="value-column">
-          <span
-            >{{
-              (currentData.income - currentData.expense).toLocaleString()
-            }}원</span
-          >
+        <div class="card net">
           <img src="@/icons/profit.png" alt="순이익아이콘" class="card-icon" />
+          <div>순이익</div>
+          <div class="value-column">
+            <span
+              >{{
+                (currentData.income - currentData.expense).toLocaleString()
+              }}원</span
+            >
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- 최근 지출 -->
-  <div class="recent-transactions">
-    <h2 class="title">최근 지출 내역</h2>
-    <div class="transaction-list">
-      <div class="transaction-item" v-for="n in 4" :key="n">
-        <div class="icon-box"></div>
-        <div class="transaction-info">
-          <div class="label">이름</div>
-          <div class="amount">가격</div>
+    <!-- 최근 지출 -->
+    <div class="recent-transactions">
+      <div class="title-row">
+        <h2 class="title">최근 지출 내역</h2>
+        <router-link :to="`/detail/${someId}`" class="link-icon">
+          <i class="fa-solid fa-location-arrow"></i>
+        </router-link>
+      </div>
+
+      <div class="transaction-list">
+        <div class="transaction-item" v-for="n in 4" :key="n">
+          <div class="icon-box"></div>
+          <div class="transaction-info">
+            <div class="label">이름</div>
+            <div class="amount">가격</div>
+          </div>
         </div>
       </div>
     </div>
@@ -85,16 +93,22 @@ const currentData = computed(() => {
 </template>
 
 <style scoped>
+.homepage {
+  background-color: #281c9d;
+}
 .summary-wrapper {
-  margin-top: 80px;
+  margin-top: -1px;
   padding: 30px;
-  background-color: #fff;
+  background-color: #ffffff;
+  border-radius: 16px 16px 0 0;
 }
 
 .select-group {
   display: flex;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  margin-left: -10px;
 }
 
 select {
@@ -107,29 +121,30 @@ select {
 
 .summary-cards {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 29px;
 }
 
 .card {
-  flex: 1;
-  padding: 12px;
+  flex: 0 0 90px;
+  padding: 10px;
   background-color: #f7f7f7;
   border-radius: 12px;
   text-align: center;
   font-size: 14px;
+  font-family: 'Pretendard-Regular';
 }
 
 .card.income {
-  color: #e53935;
+  color: #000000;
 }
 
 .card.expense {
-  color: #3f51b5;
+  color: #000000;
 }
 
 .card.net {
-  color: #fbc02d;
+  color: #000000;
 }
 
 .value-column {
@@ -141,25 +156,34 @@ select {
 }
 
 .card-icon {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
 }
 
 .recent-transactions {
   padding: 20px;
   margin-top: -45px;
+  background-color: white;
 }
 
-.title {
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.title-row .title {
   font-weight: bold;
   font-size: 18px;
-  margin-bottom: 16px;
+  margin: 0;
 }
 
 .transaction-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 1px;
 }
 
 .transaction-item {
@@ -169,6 +193,7 @@ select {
   border-radius: 12px;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: -10px;
 }
 
 .icon-box {
@@ -197,5 +222,11 @@ select {
 .amount {
   font-weight: bold;
   font-size: 16px;
+}
+
+.link-icon {
+  font-size: 20px;
+  color: #000000;
+  cursor: pointer;
 }
 </style>
