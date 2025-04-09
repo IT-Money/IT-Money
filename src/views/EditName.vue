@@ -1,18 +1,35 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { useUserStore } from '@/stores/userStore'
+
+const userStore = useUserStore()
+const newName = ref('')
+const changeName = () => {
+  if (!newName.value) return
+  userStore.updateName(newName.value)
+  newName.value = ' '
+}
+</script>
 
 <template>
   <div class="edit-name-container">
     <div class="input-group">
       <label for="current-name">현재 이름</label>
-      <input id="current-name" type="text" />
+      <input id="current-name" type="text" :value="userStore.name" readonly />
+      <!-- 현재 이름 저장소에서 가져오고 수정불가하게 만들기 -->
     </div>
 
     <div class="input-group">
       <label for="new-name">새 이름</label>
-      <input id="new-name" type="text" placeholder="New name" />
+      <input
+        id="new-name"
+        type="text"
+        v-model="newName"
+        placeholder="새 이름 입력"
+      />
     </div>
 
-    <button class="change-name-button">이름 변경</button>
+    <button class="change-name-button" @click="changeName">이름 변경</button>
   </div>
 </template>
 
@@ -42,7 +59,7 @@
   padding: 10px 12px;
   border: 1px solid var(--gray200);
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .change-name-button {

@@ -1,13 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
 const props = defineProps({
   label: String,
-  value: String,
+  // value: String,
 })
 
 const router = useRouter()
+const userStore = useUserStore()
+
 const goToEditPage = () => {
   switch (props.label) {
     case '이름':
@@ -22,10 +25,19 @@ const goToEditPage = () => {
   }
 }
 
-// 비밀번호면 *로 가리기
-const displayValue = computed(() =>
-  props.label === '비밀번호' ? '*'.repeat(props.value.length) : props.value,
-)
+// label에 따라 store에서 값 불러오기
+const displayValue = computed(() => {
+  switch (props.label) {
+    case '이름':
+      return userStore.name
+    case '이메일':
+      return userStore.email
+    case '비밀번호':
+      return '*'.repeat(userStore.password.length)
+    default:
+      return ''
+  }
+})
 </script>
 
 <template>

@@ -15,9 +15,10 @@ import AccountField from '@/components/AccountField.vue'
     <!-- 흰 박스 -->
     <div class="white-box">
       <p class="section-title"><i class="fa-solid fa-user"></i> 내 계정 관리</p>
-      <AccountField label="이름" value="홍길동" />
-      <AccountField label="이메일" value="abcde@gmail.com" />
-      <AccountField label="비밀번호" value="rlfehd0408" />
+      <!-- 여기서 AccountField에 값 겨줌-> AF에서 props로 값 받음 -->
+      <AccountField label="이름" />
+      <AccountField label="이메일" />
+      <AccountField label="비밀번호" />
     </div>
   </div>
 </template>
@@ -26,12 +27,12 @@ import AccountField from '@/components/AccountField.vue'
 .my-page-wrapper {
   /* 전체 페이지 파랗게 */
   background-color: var(--blue400);
-  min-height: 90vh;
+  min-height: 50vh;
   position: relative;
 }
 
 .top-section {
-  height: 90px;
+  height: 5px;
   display: flex;
   justify-content: center;
   position: relative;
