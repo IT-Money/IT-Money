@@ -36,6 +36,7 @@ export default {
       const category = this.tx?.categoryName || '카테고리없음'
       const fileName = iconMap[category] || 'none.png'
 
+      // 이미지 제대로 안뜸 이슈
       return new URL(`../icons/${fileName}`, import.meta.url).href
     },
 

@@ -27,26 +27,9 @@ import { ref, computed } from 'vue'
 import NetIncomeSummary from '@/components/NetIncomeSummary.vue'
 import NetIncomeCalc from '@/components/NetIncomeCalc.vue'
 import NetIncomeChange from '@/components/NetIncomeChange.vue'
-import NetIncomeGroup from '@/components/NetIncomeGroup.vue'
+import NetIncomeGroup from '@/components/NetIncomeSection.vue'
 import wallet from '../../wallet_db.json' // 거래내역 JSON
 console.log('wallet', wallet) // 👈
-
-// ✅ 선택 가능한 연도/월
-const years = ['2024', '2025']
-const months = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-  '11',
-  '12',
-]
 
 // ✅ 현재 선택 중인 연/월
 const year = ref('2025')
@@ -61,10 +44,10 @@ const filteredTransactions = computed(() =>
 
 // ✅ 수익/지출 분리
 const incomeList = computed(
-  () => filteredTransactions.value.filter(t => t.typeId === '2'), // '2'가 수익
+  () => filteredTransactions.value.filter(t => t.type === '2'), // '2'가 수익
 )
 const expenseList = computed(
-  () => filteredTransactions.value.filter(t => t.typeId === '1'), // '1'이 지출
+  () => filteredTransactions.value.filter(t => t.type === '1'), // '1'이 지출
 )
 
 // ✅ 총합
@@ -91,4 +74,11 @@ console.log('✅ 수입:', incomeList.value)
 console.log('✅ 지출:', expenseList.value)
 </script>
 
-<style scoped></style>
+<style scoped>
+.net-income-page {
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden
+  padding: 16px;
+}
+</style>
