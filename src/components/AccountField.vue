@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 
@@ -10,6 +10,10 @@ const props = defineProps({
 
 const router = useRouter()
 const userStore = useUserStore()
+
+onMounted(() => {
+  userStore.fetchUser()
+})
 
 const goToEditPage = () => {
   switch (props.label) {
@@ -29,11 +33,13 @@ const goToEditPage = () => {
 const displayValue = computed(() => {
   switch (props.label) {
     case '이름':
-      return userStore.name
+      return userStore.userName
     case '이메일':
-      return userStore.email
+      return userStore.userEmail
     case '비밀번호':
-      return '*'.repeat(userStore.password.length)
+      return userStore.userPassword
+        ? '*'.repeat(userStore.userPassword.length)
+        : ''
     default:
       return ''
   }
