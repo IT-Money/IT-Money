@@ -1,23 +1,21 @@
 <script setup>
-import MonthlyHeader from '@/components/MonthlyHeader'
-import MonthlyChart from '@/components/MonthlyChart'
-import MonthlyCategory from '@/compoenets/MonthlyCategory'
+import MonthlyHeader from '@/components/MonthlyHeader.vue'
+// import MonthlyChart from '@/components/MonthlyChart.vue'
+// import MonthlyCategory from '@/components/MonthlyCategory.vue'
 import { onMounted } from 'vue'
-import { useTrans } from '@/mine/useTrans'
-const counter = useTrans()
-const currentMonth = new Date().toISOString().substring(0, 7)
+import useTrans from '@/mine/useTrans'
+const trans = useTrans()
 
 onMounted(() => {
-  counter.fetchTransactions()
+  trans.fetchTransactions()
   console.log('마운트됨')
 })
 </script>
 
 <template>
   <MonthlyHeader />
-  <MonthlyChart />
-  <MonthlyCategory />
-  {{ currentMonth }}
+  <!-- <MonthlyChart />
+  <MonthlyCategory /> -->
 </template>
 
 <style scoped></style>

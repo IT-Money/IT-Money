@@ -1,7 +1,7 @@
 import axios from '@/utils/axios'
 import { ref, computed } from 'vue'
 
-export function useTrans() {
+export default function useTrans() {
   // transactions: 변수 할당
   const transactions = ref([])
   const error = ref(null)
@@ -53,6 +53,9 @@ export function useTrans() {
       group[eachMonth] = trans.filter(tran => tran.type === '2')
     return group
   })
+
+  // monthlyCategory: 월별 카테고리
+  // const monthlyCategory = computed(()=> )
 
   return {
     transactions,
