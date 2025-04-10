@@ -1,58 +1,50 @@
 <script setup>
-import useTrans from '@/stores/useTrans'
-import useCount from '@/stores/useCount'
+import { useTransactionStore } from '@/stores/TransactionStore'
+import { useCountStore } from '@/stores/CountStore'
+import { useCategoryStore } from '@/stores/category'
 import { computed } from 'vue'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { watch } from 'vue'
 
-const trans = useTrans()
-const count = useCount()
+const trans = useTransactionStore()
+const count = useCountStore()
 const router = useRouter()
+const categoryStore = useCategoryStore()
 
-const categoryName = {
-  1: '식비',
-  2: '쇼핑',
-  3: '취미',
-  4: '교통',
-  5: '교육',
-  6: '카테고리없음',
-  7: '월급',
+// 카테고리 이름 가져오기
+const getCategoryName = categoryId => {
+  const category = categoryStore.categories.find(c => c.id === categoryId)
+  return category ? category.categoryName : '카테고리 없음'
 }
-const getCategoryIcon = categoryId => {
-  const iconMap = {
-    1: 'food.png',
-    2: 'shopping.png',
-    3: 'hobby.png',
-    4: 'move.png',
-    5: 'education.png',
-    6: 'none.png',
-    7: 'income.png',
-  }
 
-  const fileName = iconMap[categoryId] || 'none.png'
+// 카테고리 아이콘 가져오기
+const getCategoryIcon = categoryId => {
+  const category = categoryStore.categories.find(c => c.id === categoryId)
+  if (!category) return new URL(`../icons/none.png`, import.meta.url).href
+
+  const imagePath = category.image
+  const fileName = imagePath.split('/').pop()
   return new URL(`../icons/${fileName}`, import.meta.url).href
 }
 
 const expenseCategory = computed(() => {
   const group = {}
-  const currentMonthTrans = trans.monthlyCategory.value
-
+  const currentMonthTrans = trans.monthlyCategory
   if (!currentMonthTrans) return []
-
   for (const [category, transactions] of Object.entries(currentMonthTrans)) {
     const onlyExpense = transactions.filter(tx => String(tx.type) === '1')
     if (onlyExpense.length > 0) {
       group[category] = onlyExpense
     }
   }
-
   return Object.entries(group)
 })
-
+// 카테고리 페이지로 이동
 const goToCategoryPage = categoryId => {
-  const category = categoryName[categoryId]
-  const year = trans.nowYear.value
-  const month = trans.nowMonth.value
+  const category = getCategoryName(categoryId)
+  const year = trans.nowYear
+  const month = trans.nowMonth
 
   router.push({
     name: 'expense-categories',
@@ -60,13 +52,24 @@ const goToCategoryPage = categoryId => {
       year,
       month,
       category,
+      categoryId,
     },
   })
 }
 
-onMounted(() => {
-  trans.fetchTransactions()
+onMounted(async () => {
+  await Promise.all([
+    trans.fetchTransactions(),
+    categoryStore.fetchCategories(),
+  ])
 })
+
+watch(
+  () => trans.currentMonth,
+  async () => {
+    await trans.fetchTransactions()
+  },
+)
 </script>
 
 <template>
@@ -74,24 +77,26 @@ onMounted(() => {
     v-for="([category, transactions], index) in expenseCategory"
     :key="index"
     class="category-item"
-    @click="goToCategoryPage(Number(category))"
+    @click="goToCategoryPage(category)"
   >
+    <!-- 카테고리 아이콘 -->
     <div class="icon-wrapper">
       <img
         :src="getCategoryIcon(category)"
-        :alt="categoryName[category]"
+        :alt="getCategoryIcon(category)"
         class="category-icon"
       />
     </div>
-
     <div class="category-info">
-      <p class="category-name">{{ categoryName[category] }}</p>
+      <!-- 카테고리 이름름 -->
+      <p class="category-name">{{ getCategoryName(category) }}</p>
+      <!-- 카테고리별 비율 -->
       <p class="category-percent">
         {{
           (() => {
             const total = transactions.reduce((s, v) => s + v.amount, 0)
             const monthTotal = count.useMonthlyAmount(
-              trans.monthlyExpense.value[trans.currentMonth.value] || [],
+              trans.monthlyExpense || [],
             )
             return monthTotal > 0
               ? ((total / monthTotal) * 100).toFixed(1) + '%'
@@ -100,8 +105,7 @@ onMounted(() => {
         }}
       </p>
     </div>
-
-    <!-- 금액 -->
+    <!-- 카테고리별 총액 -->
     <div class="category-amount">
       {{ transactions.reduce((s, v) => (s += v.amount), 0).toLocaleString() }}원
     </div>

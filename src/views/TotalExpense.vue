@@ -1,25 +1,29 @@
 <script setup>
 import ExpenseHeader from '@/components/ExpenseHeader.vue'
 import ExpenseList from '@/components/ExpenseList.vue'
-import useTrans from '@/stores/useTrans'
-import { onMounted } from 'vue'
-import { computed } from 'vue'
-const trans = useTrans()
+import { useTransactionStore } from '@/stores/TransactionStore'
+import { onMounted, computed } from 'vue'
+
+const trans = useTransactionStore()
 
 // dailyExpense: 일별 지출액
 const dailyExpense = computed(() => {
   const group = {}
 
-  const currentData = trans.monthlyExpense.value[trans.currentMonth.value]
-  if (!currentData) return group
+  // trans.monthlyExpense는 이미 현재 월의 지출 거래만 담고 있는 배열
+  const currentData = trans.monthlyExpense
+  if (!currentData || currentData.length === 0) return group
 
-  trans.monthlyExpense.value[trans.currentMonth.value].forEach(trans => {
-    const eachDate = trans.dateTime.split('T')[0]
+  // 각 거래를 날짜별로 그룹화
+  currentData.forEach(transaction => {
+    const eachDate = transaction.dateTime.split('T')[0]
     if (!group[eachDate]) group[eachDate] = []
-    group[eachDate].push(trans)
+    group[eachDate].push(transaction)
   })
+
   return group
 })
+
 onMounted(async () => {
   await trans.fetchTransactions()
   console.log('expenselist 컴포넌트 실행')
