@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
@@ -8,36 +8,39 @@ const currentPasswordInput = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
 
-// const errorCurrentPassword = ref('')
-// const errorConfirmPassword = ref('')
+const errorCurrentPassword = ref('')
+const errorConfirmPassword = ref('')
 
 onMounted(() => {
   userStore.fetchUser()
 })
 
 
+// 현재 비밀번호 실시간 검사
+watch(currentPasswordInput, (newVal) => {
+  if (newVal && newVal !== userStore.userPassword) {
+    errorCurrentPassword.value = '현재 비밀번호가 일치하지 않습니다'
+  } else {
+    errorCurrentPassword.value = ''
+  }
+})
+
+// 새 비밀번호 확인 실시간 검사
+watch(confirmPassword, (newVal) => {
+  if (newVal && newVal !== newPassword.value) {
+    errorConfirmPassword.value = '새 비밀번호가 서로 일치하지 않습니다'
+  } else {
+    errorConfirmPassword.value = ''
+  }
+})
+
 const changePassword = () => {
-  if(!newPassword.value) return
-  const storedPassword = userStore.userPassword
+  // 이미 watch로 검사되었기 때문에, 여기선 최종 검사만
+  if (!newPassword.value) return
+  if (errorCurrentPassword.value || errorConfirmPassword.value) return
 
-  if (currentPasswordInput.value !== storedPassword) {
-    alert('현재 비밀번호가 일치하지 않습니다.')
-    return
-  }
-
-  if (!newPassword.value) {
-    alert('새 비밀번호를 입력해주세요.')
-    return
-  }
-
-  if (newPassword.value !== confirmPassword.value) {
-    alert('새 비밀번호가 서로 일치하지 않습니다.')
-    return
-  }
-
+  // db에 업데이트
   userStore.updatePassword(newPassword.value)
-  // db에 상태 업데이트
-  alert('비밀번호가 변경되었습니다.')
 
   // 입력값 초기화
   currentPasswordInput.value = ''
