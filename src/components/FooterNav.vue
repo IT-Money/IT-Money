@@ -20,7 +20,7 @@
 .footer-wrapper {
   position: absolute;
   left: 50%;
-  top: 280px;
+  top: 250px;
   transform: translate(-50%, 335px);
   width: 100%;
   max-width: 360px;
