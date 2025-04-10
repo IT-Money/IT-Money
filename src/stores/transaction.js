@@ -25,15 +25,22 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   }
 
-  const updateTransaction = async () => {
+  const updateTransaction = async updatedTransaction => {
     try {
       const response = await axios.put(
-        `/transactions/${currentTransaction.value.id}`,
-        currentTransaction.value,
+        `/transactions/${updatedTransaction.id}`,
+        updatedTransaction,
       )
-      console.log('수정된 거래:', response.data)
+      currentTransaction.value = response.data
+      const index = transactions.value.findIndex(
+        tx => tx.id === updatedTransaction.id,
+      )
+      if (index !== -1) {
+        transactions.value[index] = response.data
+      }
     } catch (error) {
       console.error('거래 내역을 수정하는 데 실패했습니다.', error)
+      throw error
     }
   }
 

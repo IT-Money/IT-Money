@@ -1,48 +1,58 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTransactionStore } from '@/stores/transaction'
+import { useCategoryStore } from '@/stores/category'
+import { useFormStore } from '@/stores/formStore'
+import { typeMap, reverseTypeMap } from '@/utils/typeMap'
 import ButtonLayout from '@/components/ButtonLayout.vue'
+import TypeToggle from '@/components/TypeToggle.vue'
 
 const route = useRoute()
 const router = useRouter()
 const transactionStore = useTransactionStore()
+const categoryStore = useCategoryStore()
+const store = useFormStore()
 
-// 거래 데이터 관리
 const transaction = ref({
   id: null,
   dateTime: '',
   amount: 0,
   memo: '',
-  categoryId: null,
+  category: null,
+  type: null,
 })
 
-// 거래 수정 메소드
 const updateTransaction = async () => {
   try {
+    transaction.value.type = reverseTypeMap[store.type]
     await transactionStore.updateTransaction(transaction.value)
-    router.push({ name: 'detail', params: { id: transaction.value.id } }) // 수정 완료 후 상세 페이지로 이동
+    router.push({ name: 'detail', params: { id: transaction.value.id } })
     alert('거래가 수정되었습니다.')
   } catch (error) {
     alert('거래 수정 실패', error)
   }
 }
 
-// 거래 ID로 해당 거래 정보를 불러오기
 onMounted(async () => {
+  await categoryStore.fetchCategories()
   const id = route.params.id
   const fetchedTransaction = await transactionStore.fetchTransactionById(id)
   if (fetchedTransaction) {
-    transaction.value = { ...fetchedTransaction } // 수정 가능한 형태로 데이터 할당
+    transaction.value = { ...fetchedTransaction }
+    store.setType(typeMap[transaction.value.type])
   }
+})
+
+const filteredCategories = computed(() => {
+  return categoryStore.categories
 })
 </script>
 
 <template>
   <div>
-    <h2>거래 수정</h2>
+    <TypeToggle class="typeToggle" />
 
-    <!-- 거래 수정 폼 -->
     <div class="form-container">
       <div class="form-group">
         <label for="amount">금액</label>
@@ -64,20 +74,10 @@ onMounted(async () => {
       </div>
 
       <div class="form-group">
-        <label for="memo">메모</label>
-        <textarea
-          v-model="transaction.memo"
-          id="memo"
-          placeholder="메모 입력"
-        ></textarea>
-      </div>
-
-      <!-- 카테고리 선택 -->
-      <div class="form-group">
         <label for="category">카테고리</label>
-        <select v-model="transaction.categoryId" id="category">
+        <select v-model="transaction.category" id="category">
           <option
-            v-for="category in transactionStore.categories"
+            v-for="category in filteredCategories"
             :key="category.id"
             :value="category.id"
           >
@@ -86,15 +86,23 @@ onMounted(async () => {
         </select>
       </div>
 
+      <div class="form-group">
+        <label for="memo">메모</label>
+        <textarea
+          v-model="transaction.memo"
+          id="memo"
+          placeholder="메모 입력"
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="button-container">
       <ButtonLayout
-        text="수정 완료"
+        text="저장"
         backgroundColor="var(--blue400)"
         textColor="var(--gray100)"
         @click="updateTransaction"
       />
-    </div>
-
-    <div class="button-container">
       <ButtonLayout
         text="취소"
         backgroundColor="var(--gray400)"
@@ -106,10 +114,14 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.typeToggle {
+  margin: var(--space-m);
+}
+
 .form-container {
   width: 80%;
-  margin: 30px auto;
-  padding: var(--space-m);
+  margin: 0 auto;
+  padding: var(--space-s) var(--space-m) var(--space-m);
   background-color: #ffffff;
   box-shadow:
     3px 3px 15px 0px rgb(243, 242, 243),
@@ -119,6 +131,9 @@ onMounted(async () => {
 
 .form-group {
   margin-bottom: var(--space-m);
+}
+.form-group:last-of-type {
+  margin-bottom: 0;
 }
 
 .form-group label {
@@ -138,7 +153,7 @@ onMounted(async () => {
 }
 
 .form-group textarea {
-  height: 100px;
+  height: 80px;
   resize: none;
 }
 
