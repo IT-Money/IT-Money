@@ -16,7 +16,7 @@
 <script setup>
 import TransactionItem from './TransactionItem.vue'
 
-const props = defineProps({
+defineProps({
   date: {
     type: String,
     required: true,
