@@ -1,13 +1,18 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
 const newEmail = ref('')
-const changeEmail = () => {
+
+onMounted(() => {
+  userStore.fetchUser()
+})
+
+const changeEmail = async () => {
   if (!newEmail.value) return
-  userStore.updateEmail(newEmail.value)
-  newEmail.value = ' '
+  await userStore.updateEmail(newEmail.value) // 서버 + 상태 변경
+  newEmail.value = ''
 }
 </script>
 
@@ -21,7 +26,7 @@ const changeEmail = () => {
         :value="userStore.userEmail"
         readonly
       />
-      <!-- 현재 이름 저장소에서 가져오고 수정불가하게 만들기 -->
+      <!-- 현재 이메일 저장소에서 가져오고 수정불가하게 만들기 -->
     </div>
 
     <div class="input-group">
