@@ -21,9 +21,11 @@ onMounted(() => {
         </p>
         <p class="amount">
           {{
-            count.useMonthlyAmount(
-              trans.monthlyExpense.value[trans.currentMonth.value],
-            )
+            count
+              .useMonthlyAmount(
+                trans.monthlyExpense.value[trans.currentMonth.value],
+              )
+              .toLocaleString()
           }}원
         </p>
         <span class="count-badge"

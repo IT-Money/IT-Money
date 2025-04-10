@@ -1,7 +1,7 @@
 <script setup>
 import MonthlyHeader from '@/components/MonthlyHeader.vue'
 // import MonthlyChart from '@/components/MonthlyChart.vue'
-// import MonthlyCategory from '@/components/MonthlyCategory.vue'
+import MonthlyCategory from '@/components/MonthlyCategory.vue'
 import { onMounted } from 'vue'
 import useTrans from '@/stores/useTrans'
 const trans = useTrans()
@@ -16,7 +16,7 @@ onMounted(async () => {
 <template>
   <MonthlyHeader />
   <!-- <MonthlyChart /> -->
-  <!-- <MonthlyCategory /> -->
+  <MonthlyCategory />
 </template>
 
 <style scoped>
