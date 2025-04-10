@@ -9,7 +9,6 @@ const router = useRouter()
 const transactionStore = useTransactionStore()
 
 const transactionId = route.params.id
-const transaction = transactionStore.fetchTransactionById(transactionId)
 
 const goToEditPage = () => {
   router.push({ name: 'edit', params: { id: transactionId } })
@@ -18,7 +17,7 @@ const goToEditPage = () => {
 const deleteTransaction = async () => {
   try {
     await transactionStore.deleteTransaction(transactionId)
-    router.push({ name: 'home' }) // 홈으로 이동 (예시)
+    router.back()
     alert('거래가 삭제되었습니다.')
   } catch (error) {
     alert('거래 삭제 실패:', error)
@@ -28,7 +27,7 @@ const deleteTransaction = async () => {
 
 <template>
   <div>
-    <DetailContainer :transaction="transaction" />
+    <DetailContainer />
     <div class="button-container">
       <ButtonLayout
         text="수정하기"
