@@ -2,7 +2,7 @@
 import TranscationGroup from './TransactionGroup.vue'
 
 defineProps({
-  dailyExpense: Object,
+  dailyIncome: Object,
 })
 
 function formatDate(dateTime) {
@@ -24,9 +24,9 @@ function formatDate(dateTime) {
 </script>
 
 <template>
-  <div class="expense-list" style="margin-top: 16px">
+  <div class="income-list" style="margin-top: 16px">
     <TranscationGroup
-      v-for="(transactions, dateTime) in dailyExpense"
+      v-for="(transactions, dateTime) in dailyIncome"
       :key="dateTime"
       :dateTime="formatDate(dateTime)"
       :transactions="transactions"
@@ -35,7 +35,7 @@ function formatDate(dateTime) {
 </template>
 
 <style scoped>
-.expense-list {
+.income-list {
   display: flex;
   flex-direction: column;
   gap: 20px;

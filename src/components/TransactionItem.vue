@@ -1,38 +1,77 @@
+<script setup>
+import { computed } from 'vue'
+defineProps({
+  tx: { type: Object, required: true },
+  isLast: { type: Boolean, required: false },
+})
+
+// const iconSrc = computed(() => {
+//   const iconMap = {
+//     식비: 'food.png',
+//     교통: 'move.png',
+//     쇼핑: 'shopping.png',
+//     취미: 'hobby.png',
+//     교육: 'education.png',
+//     월급: 'income.png',
+//     카테고리없음: 'none.png',
+//   }
+//   const category = props.tx?.category || '카테고리 없음'
+//   const filename = iconMap[category] || 'none.png'
+
+//   return new URL(`../icons/${filename}`, import.meta.url).href
+// })
+</script>
+
 <template>
-  <div class="item">
-    <div class="amount">
-      {{ amount < 0 ? '-' : '+' }}{{ Math.abs(amount).toLocaleString() }} 원
+  <div class="transaction-item" :class="{ 'no-divider': isLast }">
+    <img :src="iconSrc" class="icon" alt="category icon" />
+    <div class="info">
+      <p class="amount">
+        {{ tx.type === 1 ? '-' : '' }}{{ tx.amount.toLocaleString() }} 원
+      </p>
+
+      <p class="memo">{{ tx.memo || ' ' }}</p>
     </div>
-    <!-- 금액 표시, 음수면 '-' 붙이고 절댓값 표시 -->
-    <div class="desc">{{ description }}</div>
-    <!-- 거래 설명 표시 -->
   </div>
 </template>
 
-<script>
-export default {
-  name: 'TransactionItem',
-  props: {
-    amount: Number, // 거래 금액
-    description: String, // 거래 설명 (예: 내 카카오머니 → 송금)
-  },
-}
-</script>
-
 <style scoped>
-.item {
-  background-color: #fff;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
 }
+
+.transaction-item.no-divider {
+  border-bottom: none;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background-color: #f76d82;
+  padding: 6px;
+  margin-right: 12px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .amount {
+  font-size: 16px;
   font-weight: bold;
-  color: #e74c3c; /* 빨간색 계열 */
+  color: #000;
+  margin: 0;
 }
-.desc {
-  font-size: 0.9rem;
-  color: #666;
+
+.memo {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
 }
 </style>

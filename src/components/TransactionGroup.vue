@@ -1,5 +1,5 @@
 <script setup>
-import ExpenseItem from './ExpenseItem.vue'
+import TransactionItem from './TransactionItem.vue'
 defineProps({ dateTime: String, transactions: Array })
 </script>
 
@@ -7,7 +7,7 @@ defineProps({ dateTime: String, transactions: Array })
   <div class="transaction-group">
     <p class="group-date">{{ dateTime }}</p>
     <div class="transaction-card">
-      <ExpenseItem
+      <TransactionItem
         v-for="(tx, index) in transactions"
         :key="index"
         :tx="tx"
