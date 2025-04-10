@@ -1,64 +1,54 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useTransactions } from '@/api/useTransactions'
+import { useTransactionStore } from '@/stores/transaction'
+import { useCategoryStore } from '@/stores/category'
 
-const { transactions, categories, loading, error, fetchTransactions } =
-  useTransactions()
 const route = useRoute()
+const transactionStore = useTransactionStore()
+const categoryStore = useCategoryStore()
+
 const transaction = ref(null)
-const category = ref('기타')
+const category = ref({ categoryName: '기타' })
 
 onMounted(async () => {
-  await fetchTransactions()
   const id = parseInt(route.params.id)
-  transaction.value = transactions.value.find(tx => tx.id === id)
-  category.value = categories.value.find(
-    category => String(category.id) === String(transaction.value.category),
-  )
-  console.log(category.value);
+
+  const fetchTransaction = await transactionStore.fetchTransactionById(id)
+  transaction.value = fetchTransaction
+
+  if (categoryStore.categories.length === 0) {
+    await categoryStore.fetchCategories?.()
+  }
+
+  if (transaction.value) {
+    category.value = categoryStore.categories.find(
+      cat => String(cat.id) === String(transaction.value.category),
+    ) || { categoryName: '기타' }
+  }
 })
 
 const formattedType = computed(() => {
-  if (transaction.value) {
-    return transaction.value.type === '1' ? '-' : '+'
-  }
-  return ''
+  return transaction.value?.type === '1' ? '-' : '+'
 })
 
 const formattedAmount = computed(() => {
-  if (transaction.value) {
-    return transaction.value.amount.toLocaleString()
-  }
-  return ''
+  return transaction.value?.amount?.toLocaleString() ?? ''
 })
 
 const formattedDate = computed(() => {
-  if (transaction.value) {
-    const date = new Date(transaction.value.dateTime)
-    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`
-  }
-  return ''
+  if (!transaction.value) return ''
+  const date = new Date(transaction.value.dateTime)
+  return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`
 })
 
-const categoryName = computed(() => {
-  if (transaction.value) {
-    return category.value.categoryName
-  }
-  return ''
-})
+const categoryName = computed(() => category.value.categoryName ?? '')
 
-const memo = computed(() => {
-  if (transaction.value) {
-    return transaction.value.memo
-  }
-  return ''
-})
+const memo = computed(() => transaction.value?.memo ?? '')
 </script>
 
 <template>
-  <div v-if="loading">Loading...</div>
-  <div v-else-if="error" class="error">Error: {{ error }}</div>
+  <div v-if="!transaction">Loading...</div>
   <div v-else class="DetailContainer">
     <div class="amount">{{ formattedType }}{{ formattedAmount }} 원</div>
     <div class="line"></div>
