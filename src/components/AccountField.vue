@@ -38,6 +38,7 @@ const displayValue = computed(() => {
       return userStore.userEmail
     case '비밀번호':
       return userStore.userPassword
+      // 비밀번호 안보이게
         ? '*'.repeat(userStore.userPassword.length)
         : ''
     default:
