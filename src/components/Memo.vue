@@ -19,7 +19,7 @@ const formStore = useFormStore()
 
 <style scoped>
 .memo-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 label {
@@ -27,17 +27,21 @@ label {
   margin-bottom: 6px;
   font-size: 13px;
   color: #555;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .memo-input {
   width: 100%;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   font-size: 14px;
   background-color: #fff;
   color: #333;
   resize: none;
   outline: none;
+  font-family: 'Noto Sans', sans-serif; /* 날짜 선택기에서 사용하는 폰트 */
+  padding: 10px;
+  margin-bottom: 16px;
 }
 </style>

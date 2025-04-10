@@ -82,23 +82,30 @@ const selectCategory = value => {
 </template>
 
 <style scoped>
+/* 카테고리 입력 필드 전체 박스 */
 .category-wrapper {
+  position: relative;
   margin-bottom: 16px;
 }
 
+/* 레이블 */
 label {
   display: block;
   margin-bottom: 6px;
   font-size: 13px;
   color: #555;
+  font-family: 'Noto Sans', sans-serif;
 }
 
+/* 입력 박스 */
 .input-box {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
+/* 입력창 */
 .input-box input {
   width: 100%;
   padding: 10px 36px 10px 12px;
@@ -110,23 +117,34 @@ label {
   background-color: #fff;
 }
 
+/* 검색 아이콘 */
 .input-box .icon {
   position: absolute;
   right: 12px;
-  font-size: 16px;
+  font-size: 18px;
+  color: #333;
 }
+
+/* 드롭다운 */
 .dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
   margin-top: 8px;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   padding: 8px 0;
   display: flex;
-  flex-direction: column; /* 세로 정렬 */
+  flex-direction: column;
   gap: 4px;
   max-height: 200px;
   overflow-y: auto;
 }
+
+/* 드롭다운 항목 */
 .dropdown-item {
   display: flex;
   align-items: center;
@@ -138,9 +156,12 @@ label {
   border-radius: 8px;
 }
 
+/* hover 효과 */
 .dropdown-item:hover {
-  background-color: #f5f5f5;
+  background-color: #f0f8ff;
 }
+
+/* 아이콘 */
 .category-icon {
   width: 20px;
   height: 20px;

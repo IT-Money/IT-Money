@@ -30,15 +30,15 @@ const setType = value => {
   display: flex;
   justify-content: center;
   gap: 100px;
-  margin: 16px 0;
+  margin: 10px 0;
 }
 
 .toggle-btn {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 12px;
   background-color: #f2f1f9;
   color: #898989;
-  font-weight: 500;
+  font-weight: 600;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -46,11 +46,11 @@ const setType = value => {
 
 .active-income {
   color: var(--sementic-sky);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .active-expense {
   color: var(--sementic-red);
-  font-weight: 600;
+  font-weight: 700;
 }
 </style>

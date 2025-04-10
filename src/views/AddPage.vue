@@ -64,7 +64,7 @@ const cancel = () => {
 
 <template>
   <div class="add-page">
-    <h2>추가 거래 내역</h2>
+    <h2 class="text">추가 거래 내역</h2>
     <TypeToggle />
     <DatePickerInput />
     <CategoryInput />
@@ -79,11 +79,11 @@ const cancel = () => {
   padding: 24px;
   max-width: 420px;
   margin: auto;
+  margin-bottom: 15px;
 }
-
-h2 {
+.text {
+  font-family: 'Noto Sans', sans-serif;
   text-align: center;
-  font-size: 20px;
-  margin-bottom: 20px;
+  margin: auto;
 }
 </style>
