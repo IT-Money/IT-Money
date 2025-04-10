@@ -63,7 +63,6 @@ export default function useTrans() {
   })
 
   // monthlyCategory: 월별 카테고리
-  // const monthlyCategory = computed(()=> )
 
   return {
     transactions,
