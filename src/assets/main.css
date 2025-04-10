@@ -43,7 +43,8 @@ a {
 }
 
 #app {
-  width: 80%;
+  position: relative;
+  width: 70%;
   max-width: 360px;
   height: 670px;
   margin: 30px auto;
