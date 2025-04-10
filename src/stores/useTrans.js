@@ -63,6 +63,16 @@ export default function useTrans() {
   })
 
   // monthlyCategory: 월별 카테고리
+  const monthlyCategory = computed(() => {
+    const group = {}
+
+    monthlyTransactions.value.forEach(trans => {
+      const eachCategory = trans.Category
+      if (!group[eachCategory]) group[eachCategory] = []
+      group[eachCategory].push(trans)
+    })
+    return group
+  })
 
   return {
     transactions,
@@ -75,5 +85,6 @@ export default function useTrans() {
     nowMonth,
     nowYear,
     currentDate,
+    monthlyCategory,
   }
 }
