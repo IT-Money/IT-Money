@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useUser } from '@/api/useUser'
-import { updateUserNameOnServer } from '@/api/useUser'
+import { updateUserNameOnServer, updateUserEmailOnServer, updateUserPasswordOnServer } from '@/api/useUser'
 
 export const useUserStore = defineStore('userStore', () => {
   // 상태
@@ -11,12 +11,14 @@ export const useUserStore = defineStore('userStore', () => {
     userName.value = response.data.name // 상태 업데이트도 같이
   }
 
-  const updateEmail = newEmail => {
-    userEmail.value = newEmail
+  const updateEmail = async newEmail => {
+    const response = await updateUserEmailOnServer(newEmail)
+    userEmail.value = response.data.email
   }
 
-  const updatePassword = newPassword => {
-    userPassword.value = newPassword
+  const updatePassword = async newPassword => {
+    const response = await updateUserPasswordOnServer(newPassword)
+    userPassword.value = response.data.password
   }
 
   return {
