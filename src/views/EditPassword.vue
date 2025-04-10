@@ -1,22 +1,60 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
+const currentPasswordInput = ref('')
 const newPassword = ref('')
+const confirmPassword = ref('')
+
+
+onMounted(() => {
+  userStore.fetchUser()
+})
+
+// const changePassword = () => {
+//   if (!newPassword.value) return
+//   userStore.updatePassword(newPassword.value)
+//   newPassword.value = ' '
+// }
+
 const changePassword = () => {
-  if (!newPassword.value) return
+  const storedPassword = userStore.userPassword
+
+  if (currentPasswordInput.value !== storedPassword) {
+    alert('현재 비밀번호가 일치하지 않습니다.')
+    return
+  }
+
+  if (!newPassword.value) {
+    alert('새 비밀번호를 입력해주세요.')
+    return
+  }
+
+  if (newPassword.value !== confirmPassword.value) {
+    alert('새 비밀번호가 서로 일치하지 않습니다.')
+    return
+  }
+
   userStore.updatePassword(newPassword.value)
-  newPassword.value = ' '
+  // db에 상태 업데이트
+  alert('비밀번호가 변경되었습니다.')
+
+  // 입력값 초기화
+  currentPasswordInput.value = ''
+  newPassword.value = ''
+  confirmPassword.value = ''
 }
+
 </script>
 
 <template>
   <div class="edit-password-container">
     <div class="input-group">
       <label for="current-password">현재 비밀번호</label>
-      <input id="current-password" type="text" />
-      <!-- 현재 이름 저장소에서 가져오고 수정불가하게 만들기 -->
+      <!-- 현재 비번 입력하게 만들기 -->
+       <!--type password로 만들기 -->
+      <input id="current-password" type="text" v-model="currentPasswordInput" placeholder="현재 비밀번호 입력"/>
     </div>
 
     <div class="input-group">
@@ -30,11 +68,11 @@ const changePassword = () => {
     </div>
 
     <div class="input-group">
-      <label for="new-password">새 비밀번호 확인</label>
+      <label for="confirm-password">새 비밀번호 확인</label>
       <input
-        id="new-password"
+        id="confirm-password"
         type="text"
-        v-model="newPassword"
+        v-model="confirmPassword"
         placeholder="새 비밀번호 재입력"
       />
     </div>
