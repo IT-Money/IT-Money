@@ -1,31 +1,46 @@
+<script setup>
+import { onMounted } from 'vue'
+import useTrans from '@/stores/useTrans'
+import useCount from '@/stores/useCount'
+
+const trans = useTrans()
+const count = useCount()
+
+onMounted(() => {
+  trans.fetchTransactions()
+})
+</script>
+
 <template>
   <div class="summary-container">
     <div class="summary-content">
       <!-- 왼쪽: 텍스트 정보 -->
       <div class="text-section">
-        <p class="title">{{ title }}</p>
-        <p class="amount">{{ amount.toLocaleString() }}원</p>
-        <span class="count-badge">총 {{ date }}</span>
+        <p class="title">
+          {{ trans.nowYear.value }}년 {{ trans.nowMonth.value }}월 총지출
+        </p>
+        <p class="amount">
+          {{
+            count.useMonthlyAmount(
+              trans.monthlyExpense.value[trans.currentMonth.value],
+            )
+          }}원
+        </p>
+        <span class="count-badge"
+          >총
+          {{
+            trans.monthlyExpense.value[trans.currentMonth.value]?.length || 0
+          }}회</span
+        >
       </div>
 
       <!-- 오른쪽: 원형 아이콘 -->
       <div class="icon-section">
-        <img class="icon-image" src="../icons/food.png" alt="아이콘" />
+        <img class="icon-image" src="@/icons/expence.png" alt="아이콘" />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'CategorySummary',
-  props: {
-    title: String, // 예: "2025년 4월 식비 금액"
-    amount: Number, // 예: 262200
-    date: Number, // 예: 23
-  },
-}
-</script>
 
 <style scoped>
 .summary-container {
@@ -81,7 +96,7 @@ export default {
 }
 
 .icon-image {
-  width: 24px;
-  height: 24px;
+  width: 48px;
+  height: 48px;
 }
 </style>
