@@ -55,6 +55,7 @@ const handleDateChange = val => {
         :enable-time-picker="false"
         :teleport="false"
         @update:modelValue="handleDateChange"
+        :input-class="'hidden-input'"
       />
     </div>
   </div>
@@ -99,5 +100,13 @@ const handleDateChange = val => {
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.calendar-only .vue-datepicker-next__input {
+  display: none; /* 입력 필드 숨기기 */
 }
 </style>
