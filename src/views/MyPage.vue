@@ -27,7 +27,7 @@ import AccountField from '@/components/AccountField.vue'
 .my-page-wrapper {
   /* 전체 페이지 파랗게 */
   background-color: var(--blue400);
-  min-height: 50vh;
+  min-height: 90%;
   position: relative;
 }
 
@@ -65,7 +65,7 @@ import AccountField from '@/components/AccountField.vue'
   border-top-right-radius: 24px;
   padding: 95px 24px 32px; /* 위에 이미지 공간 확보 */
   margin-top: 100px;
-  min-height: calc(100vh - 250px);
+  min-height: 500px;
 }
 
 .section-title {
