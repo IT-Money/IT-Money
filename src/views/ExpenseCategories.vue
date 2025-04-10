@@ -1,3 +1,22 @@
+<template>
+  <section class="expense-category-page">
+    <!-- 1. 카테고리 요약 영역 (월/카테고리명/합계/건수 표시) -->
+    <CategorySummary
+      :year="Number(year)"
+      :month="Number(month)"
+      :categoryName="selectedCategory"
+      :amount="totalAmount"
+      :date="totalCount"
+    />
+
+    <!-- 2. 거래 내역 리스트 -->
+    <TransactionList
+      :transactions="filteredTransactions"
+      :categories="categories"
+    />
+  </section>
+</template>
+
 <script setup>
 import { ref, computed } from 'vue'
 import wallet from '../../wallet_db.json'
@@ -10,7 +29,10 @@ import TransactionList from '@/components/TransactionList.vue'
  */
 const year = ref('2025')
 const month = ref('04')
-const selectedCategory = ref('식비')
+const selectedCategory = ref('교육')
+// 🔥 왜 테두리에 식비 카테고리의 핑크가 등장하는것?..
+
+const categories = ref(wallet.categories)
 
 /**
  * 1. '식비' 카테고리이면서 '지출' 타입인 거래들을 필터링한다.
@@ -84,22 +106,6 @@ const totalAmount = computed(() =>
  */
 const totalCount = computed(() => filteredTransactions.value.length)
 </script>
-
-<template>
-  <section class="expense-category-page">
-    <!-- 1. 카테고리 요약 영역 (월/카테고리명/합계/건수 표시) -->
-    <CategorySummary
-      :year="Number(year)"
-      :month="Number(month)"
-      :categoryName="selectedCategory"
-      :amount="totalAmount"
-      :date="totalCount"
-    />
-
-    <!-- 2. 거래 내역 리스트 -->
-    <TransactionList :transactions="filteredTransactions" />
-  </section>
-</template>
 
 <style scoped>
 .net-income-page {

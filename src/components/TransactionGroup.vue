@@ -2,6 +2,8 @@
   <div class="transaction-group">
     <p class="group-date">{{ date }}</p>
     <div class="transaction-card">
+      <!-- 거래 목록 반복 출력 -->
+      <!-- 각각의 거래를 props로 넘겨주고, 마지막 거래인지 확인 -->
       <TransactionItem
         v-for="(tx, index) in transactions"
         :key="index"
@@ -20,9 +22,16 @@ export default {
   components: {
     TransactionItem,
   },
+
   props: {
-    date: String,
-    transactions: Array,
+    date: {
+      type: String,
+      required: true,
+    },
+    transactions: {
+      type: Array,
+      required: true, // ✅ 필수값으로 지정 (tx 전달 안 되는 오류 방지)
+    },
   },
 }
 </script>

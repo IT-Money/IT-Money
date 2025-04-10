@@ -22,16 +22,31 @@ export default {
       type: Array,
       required: true,
     },
+    // 카테고리도 받아오기
+    categories: {
+      type: Array,
+      required: true,
+    },
   },
 
   computed: {
     groupedTransactions() {
-      return this.transactions.reduce((acc, tx) => {
-        const date = tx.dateTime?.split('T')[0] || '날짜 없음'
-        if (!acc[date]) acc[date] = []
-        acc[date].push(tx)
-        return acc
-      }, {})
+      return this.transactions
+        .map(tx => {
+          const cat = this.categories.find(
+            c => String(c.id) === String(tx.category ?? tx.categoryId),
+          )
+          return {
+            ...tx,
+            categoryName: cat?.categoryName || '카테고리없음',
+          }
+        })
+        .reduce((acc, tx) => {
+          const date = tx.dateTime?.split('T')[0] || '날짜 없음'
+          if (!acc[date]) acc[date] = []
+          acc[date].push(tx)
+          return acc
+        }, {})
     },
   },
 

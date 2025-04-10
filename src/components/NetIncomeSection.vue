@@ -1,12 +1,13 @@
 <template>
   <section class="net-income-section">
     <h2 class="section-title">{{ type }}</h2>
-    <TransactionList :transactions="wallet" />
+    <TransactionList :transactions="wallet" :categories="categories" />
   </section>
 </template>
 
 <script setup>
 import TransactionList from './TransactionList.vue'
+import { defineProps } from 'vue'
 
 defineProps({
   type: {
@@ -14,6 +15,10 @@ defineProps({
     required: true,
   },
   wallet: {
+    type: Array,
+    required: true,
+  },
+  categories: {
     type: Array,
     required: true,
   },

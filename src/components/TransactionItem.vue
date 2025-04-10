@@ -2,7 +2,10 @@
   <div class="transaction-item" :class="{ 'no-divider': isLast }">
     <img :src="iconSrc" class="icon" alt="category icon" />
     <div class="info">
-      <p class="amount">-{{ tx.amount.toLocaleString() }} 원</p>
+      <!-- 금액 (부호 포함) -->
+      <p class="amount">
+        {{ tx.type === 1 ? '-' : '' }}{{ tx.amount.toLocaleString() }} 원
+      </p>
       <p class="memo">{{ tx.memo || ' ' }}</p>
     </div>
   </div>
@@ -22,6 +25,7 @@ export default {
     },
   },
   computed: {
+    // 아이콘 경로
     iconSrc() {
       const iconMap = {
         식비: 'food.png',
@@ -34,9 +38,12 @@ export default {
       }
 
       const category = this.tx?.categoryName || '카테고리없음'
+      console.log('✅ iconSrc 진입:', this.tx) // tx 로그
+      console.log('✅ categoryName:', category) // 카테고리 로그
+
       const fileName = iconMap[category] || 'none.png'
 
-      // 이미지 제대로 안뜸 이슈
+      // ✅ 이미지 동적으로 불러오기
       return new URL(`../icons/${fileName}`, import.meta.url).href
     },
 

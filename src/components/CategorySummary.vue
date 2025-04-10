@@ -10,13 +10,14 @@
 
       <!-- 오른쪽: 원형 아이콘 -->
       <div class="icon-section">
-        <img class="icon-image" :src="iconPath" :alt="categoryName" />
+        <img class="icon-image" :src="iconSrc" :alt="categoryName" />
         <!-- <img class="icon-image" src="@/icons/food.png" alt="아이콘" /> -->
       </div>
     </div>
   </div>
 </template>
-
+<!-- categoryName: 식비 (한국어 카테고리) -->
+<!-- fileName food.png -->
 <script>
 export default {
   name: 'CategorySummary',
@@ -28,11 +29,30 @@ export default {
     date: Number, // 거래 횟수
   },
   computed: {
-    iconPath() {
+    iconSrc() {
+      // 카테고리명 → 아이콘 파일명 매핑
+      const iconMap = {
+        식비: 'food.png',
+        교통: 'move.png',
+        쇼핑: 'shopping.png',
+        취미: 'hobby.png',
+        교육: 'education.png',
+        월급: 'income.png',
+        카테고리없음: 'none.png',
+      }
+
+      // 현재 카테고리명
+      const category = this.categoryName || '카테고리없음'
+      const fileName = iconMap[category] || 'none.png'
+      console.log('category', category)
+      console.log('fileName', fileName)
+
       try {
-        return new URL(`@/icons/${this.categoryName}.png`, import.meta.url).href
+        // 상대 경로 기준으로 아이콘 URL 생성
+        return new URL(`../icons/${fileName}`, import.meta.url).href
       } catch {
-        return new URL(`@/icons/${this.categoryName}.png`, import.meta.url).href
+        // fallback 이미지
+        return new URL(`../icons/none.png`, import.meta.url).href
       }
     },
   },

@@ -13,11 +13,16 @@
     <!-- 3. 전달 대비 변화 텍스트 -->
     <NetIncomeChange :changeAmount="compareWithLastMonth" />
 
-    <!-- 4. 수익 항목 -->
-    <NetIncomeGroup type="수익" :wallet="incomeList" />
-
-    <!-- 5. 지출 항목 -->
-    <NetIncomeGroup type="지출" :wallet="expenseList" />
+    <NetIncomeSection
+      type="수익"
+      :wallet="incomeList"
+      :categories="wallet.categories"
+    />
+    <NetIncomeSection
+      type="지출"
+      :wallet="expenseList"
+      :categories="wallet.categories"
+    />
   </section>
 </template>
 
@@ -26,7 +31,7 @@ import { ref, computed } from 'vue'
 import NetIncomeSummary from '@/components/NetIncomeSummary.vue'
 import NetIncomeCalc from '@/components/NetIncomeCalc.vue'
 import NetIncomeChange from '@/components/NetIncomeChange.vue'
-import NetIncomeGroup from '@/components/NetIncomeSection.vue'
+import NetIncomeSection from '@/components/NetIncomeSection.vue'
 import wallet from '../../wallet_db.json' // 거래내역 JSON
 console.log('wallet', wallet) // 👈
 
