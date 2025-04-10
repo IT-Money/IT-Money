@@ -134,88 +134,83 @@ onMounted(async () => {
 
 <template>
   <div class="homepage">
-    <!-- ✅ 연/월 선택 -->
-    <div class="select-group">
-      <select v-model="selectedYear">
-        <option v-for="year in years" :key="year" :value="year">
-          {{ year }}년
-        </option>
-      </select>
-
-      <select v-model="selectedMonth">
-        <option v-for="month in months" :key="month" :value="month">
-          {{ month }}월
-        </option>
-      </select>
-    </div>
-
-    <!-- ✅ 요약 카드 -->
-    <div class="summary-cards">
-      <div class="card income">
-        <router-link to="/total-income" class="link-icon">
-          <img src="@/icons/income.png" alt="총수입" class="card-icon" />
-        </router-link>
-        <div>총수입</div>
-        <div class="value-column">
-          <span>{{ totalIncome.toLocaleString() }}원</span>
-        </div>
+    <div class="summary-wrapper">
+      <!-- ✅ 연/월 선택 -->
+      <div class="select-group">
+        <select v-model="selectedYear">
+          <option v-for="year in years" :key="year" :value="year">
+            {{ year }}년
+          </option>
+        </select>
+        <select v-model="selectedMonth">
+          <option v-for="month in months" :key="month" :value="month">
+            {{ month }}월
+          </option>
+        </select>
       </div>
-
-      <div class="card expense">
-        <router-link to="/total-expense" class="link-icon">
-          <img src="@/icons/expence.png" alt="총지출" class="card-icon" />
-        </router-link>
-        <div>총지출</div>
-        <div class="value-column">
-          <span>{{ totalExpense.toLocaleString() }}원</span>
-        </div>
-      </div>
-
-      <div class="card net">
-        <router-link to="/net-income" class="link-icon">
-          <img src="@/icons/profit.png" alt="순이익" class="card-icon" />
-        </router-link>
-        <div>순이익</div>
-        <div class="value-column">
-          <span>{{ netProfit.toLocaleString() }}원</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 최근 지출 내역 -->
-    <div class="bottom-section">
-      <div class="recent-transactions">
-        <div class="title-row">
-          <h2 class="title">최근 지출 내역</h2>
-          <router-link to="/transaction-history" class="link-icon">
-            <i class="fa-solid fa-angle-right"></i>
+      <!-- ✅ 요약 카드 -->
+      <div class="summary-cards">
+        <div class="card income">
+          <router-link to="/total-income" class="link-icon">
+            <img src="@/icons/income.png" alt="총수입" class="card-icon" />
           </router-link>
-        </div>
-
-        <div
-          v-for="item in recentExpenses"
-          :key="item.id"
-          class="transaction-item"
-        >
-          <div class="icon-box">
-            <img
-              :src="item.categoryImage"
-              alt="카테고리 아이콘"
-              class="icon-img"
-            />
+          <div>총수입</div>
+          <div class="value-column">
+            <span>{{ totalIncome.toLocaleString() }}원</span>
           </div>
-
-          <div class="transaction-info">
-            <div class="label">
-              {{ item.categoryName }}<br />
-              <small>{{ item.date }}</small>
+        </div>
+        <div class="card expense">
+          <router-link to="/total-expense" class="link-icon">
+            <img src="@/icons/expence.png" alt="총지출" class="card-icon" />
+          </router-link>
+          <div>총지출</div>
+          <div class="value-column">
+            <span>{{ totalExpense.toLocaleString() }}원</span>
+          </div>
+        </div>
+        <div class="card net">
+          <router-link to="/net-income" class="link-icon">
+            <img src="@/icons/profit.png" alt="순이익" class="card-icon" />
+          </router-link>
+          <div>순이익</div>
+          <div class="value-column">
+            <span>{{ netProfit.toLocaleString() }}원</span>
+          </div>
+        </div>
+      </div>
+      <!-- 최근 지출 내역 -->
+      <div class="bottom-section">
+        <div class="recent-transactions">
+          <div class="title-row">
+            <h2 class="title">최근 지출 내역</h2>
+            <router-link to="/transaction-history" class="link-icon">
+              <i class="fa-solid fa-angle-right"></i>
+            </router-link>
+          </div>
+          <div
+            v-for="item in recentExpenses"
+            :key="item.id"
+            class="transaction-item"
+          >
+            <div class="icon-box">
+              <img
+                :src="item.categoryImage"
+                alt="카테고리 아이콘"
+                class="icon-img"
+              />
             </div>
-            <div
-              class="amount"
-              :style="{ color: item.isIncome ? '#1e90ff' : '#ff4267' }"
-            >
-              {{ item.isIncome ? '+' : '-'
-              }}{{ item.amount.toLocaleString() }}원
+            <div class="transaction-info">
+              <div class="label">
+                {{ item.categoryName }}<br />
+                <small>{{ item.date }}</small>
+              </div>
+              <div
+                class="amount"
+                :style="{ color: item.isIncome ? '#1e90ff' : '#ff4267' }"
+              >
+                {{ item.isIncome ? '+' : '-'
+                }}{{ item.amount.toLocaleString() }}원
+              </div>
             </div>
           </div>
         </div>
@@ -226,10 +221,11 @@ onMounted(async () => {
 
 <style scoped>
 .homepage {
-  background-color: #ffffff;
+  background-color: #281c9d;
+  margin-top: -20px;
 }
 .summary-wrapper {
-  margin-top: -1px;
+  margin-top: 10px;
   padding: 30px;
   background-color: #ffffff;
   border-radius: 16px 16px 0 0;
@@ -238,9 +234,9 @@ onMounted(async () => {
 .select-group {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: -10px;
   margin-bottom: 15px;
-  margin-left: 10px;
+  margin-left: -20px;
 }
 
 select {
@@ -254,11 +250,12 @@ select {
 .summary-cards {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
 }
 
 .card {
   width: 95px;
+  min-width: 95px;
   height: 120px;
   padding: 10px;
   background-color: #f7f7f7;
@@ -300,8 +297,9 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 20px;
+  margin-left: -20px;
 }
 
 .title-row .title {
@@ -314,17 +312,19 @@ select {
 .transaction-list {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 0px;
 }
 
 .transaction-item {
   display: flex;
   align-items: center;
-  padding: 8px 10px;
+  padding: 5px 5px;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 0px;
+  margin-left: -25px;
+  margin-right: -30px;
   position: relative;
   top: -10px;
 }
