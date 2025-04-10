@@ -3,22 +3,21 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 
 const userStore = useUserStore()
+
 const currentPasswordInput = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
 
+// const errorCurrentPassword = ref('')
+// const errorConfirmPassword = ref('')
 
 onMounted(() => {
   userStore.fetchUser()
 })
 
-// const changePassword = () => {
-//   if (!newPassword.value) return
-//   userStore.updatePassword(newPassword.value)
-//   newPassword.value = ' '
-// }
 
 const changePassword = () => {
+  if(!newPassword.value) return
   const storedPassword = userStore.userPassword
 
   if (currentPasswordInput.value !== storedPassword) {
@@ -45,7 +44,6 @@ const changePassword = () => {
   newPassword.value = ''
   confirmPassword.value = ''
 }
-
 </script>
 
 <template>
@@ -55,6 +53,7 @@ const changePassword = () => {
       <!-- 현재 비번 입력하게 만들기 -->
        <!--type password로 만들기 -->
       <input id="current-password" type="text" v-model="currentPasswordInput" placeholder="현재 비밀번호 입력"/>
+      <p v-if="errorCurrentPassword" class="error-text">{{ errorCurrentPassword }}</p>
     </div>
 
     <div class="input-group">
@@ -75,6 +74,7 @@ const changePassword = () => {
         v-model="confirmPassword"
         placeholder="새 비밀번호 재입력"
       />
+      <p v-if="errorConfirmPassword" class="error-text">{{ errorConfirmPassword }}</p>
     </div>
 
     <button class="change-password-button" @click="changePassword">
@@ -132,5 +132,11 @@ const changePassword = () => {
 .change-password-button:enabled:hover {
   background-color: var(--blue400); /* blue */
   color: var(--gray100);
+}
+
+.error-text {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 4px;
 }
 </style>
