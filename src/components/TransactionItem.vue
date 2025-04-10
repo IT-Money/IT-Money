@@ -1,57 +1,55 @@
 <template>
   <div class="transaction-item" :class="{ 'no-divider': isLast }">
-    <img :src="iconSrc" class="icon" alt="category icon" />
+    <div class="icon">
+      <img :src="iconSrc" alt="category icon" />
+    </div>
     <div class="info">
-      <!-- 금액 (부호 포함) -->
       <p class="amount">
         {{ tx.type === 1 ? '-' : '' }}{{ tx.amount.toLocaleString() }} 원
       </p>
-      <p class="memo">{{ tx.memo || ' ' }}</p>
+      <p class="memo">{{ memoText || '' }}</p>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'TransactionItem',
-  props: {
-    tx: {
-      type: Object,
-      required: true,
-    },
-    isLast: {
-      type: Boolean,
-      default: false, // 기본값은 false로
-    },
+<script setup>
+import { computed } from 'vue'
+
+// ✅ props 받아서 변수로 저장
+const props = defineProps({
+  tx: {
+    type: Object,
+    required: true,
   },
-  computed: {
-    // 아이콘 경로
-    iconSrc() {
-      const iconMap = {
-        식비: 'food.png',
-        교통: 'move.png',
-        쇼핑: 'shopping.png',
-        취미: 'hobby.png',
-        교육: 'education.png',
-        월급: 'income.png',
-        카테고리없음: 'none.png',
-      }
-
-      const category = this.tx?.categoryName || '카테고리없음'
-      console.log('✅ iconSrc 진입:', this.tx) // tx 로그
-      console.log('✅ categoryName:', category) // 카테고리 로그
-
-      const fileName = iconMap[category] || 'none.png'
-
-      // ✅ 이미지 동적으로 불러오기
-      return new URL(`../icons/${fileName}`, import.meta.url).href
-    },
-
-    memoText() {
-      return this.tx?.memo?.trim() !== '' ? this.tx.memo : ' '
-    },
+  isLast: {
+    type: Boolean,
+    default: false,
   },
-}
+})
+
+// ✅ computed 내부에서 props.tx로 접근해야 함
+const iconSrc = computed(() => {
+  const iconMap = {
+    식비: 'food.png',
+    교통: 'move.png',
+    쇼핑: 'shopping.png',
+    취미: 'hobby.png',
+    교육: 'education.png',
+    월급: 'income.png',
+    카테고리없음: 'none.png',
+  }
+
+  const category = props.tx?.categoryName || '카테고리없음'
+  console.log('✅ iconSrc 진입:', props.tx)
+  console.log('✅ categoryName:', category)
+
+  const fileName = iconMap[category] || 'none.png'
+  return new URL(`../icons/${fileName}`, import.meta.url).href
+})
+
+const memoText = computed(() => {
+  return props.tx?.memo?.trim() !== '' ? props.tx.memo : ' '
+})
 </script>
 
 <style scoped>
@@ -67,12 +65,21 @@ export default {
 }
 
 .icon {
-  width: 32px;
-  height: 32px;
+  width: 45px;
+  height: 45px;
   border-radius: 999px;
   background-color: #f76d82;
+  display: flex;
   padding: 6px;
+  align-items: center;
+  justify-content: center;
   margin-right: 12px;
+}
+
+.icon img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 .info {
