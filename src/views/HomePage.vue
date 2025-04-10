@@ -1,152 +1,223 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
+import useTrans from '@/stores/useTrans'
+import education from '@/icons/education.png'
+import expence from '@/icons/expence.png'
+import food from '@/icons/food.png'
+import hobby from '@/icons/hobby.png'
+import income from '@/icons/income.png'
+import move from '@/icons/move.png'
+import none from '@/icons/none.png'
+import profit from '@/icons/profit.png'
+import shopping from '@/icons/shopping.png'
 
-// 📌 현재 연도 기준 설정
-const currentYear = new Date().getFullYear()
-const startYear = 2023
-const endYear = currentYear + 2
-
-const selectedYear = ref(currentYear)
-const selectedMonth = ref(new Date().getMonth() + 1)
-
-const years = Array.from(
-  { length: endYear - startYear + 1 },
-  (_, i) => startYear + i,
-)
-const months = Array.from({ length: 12 }, (_, i) => i + 1)
-
-// 📌 월별 수입/지출 요약 데이터 예시
-const dataByMonth = {
-  '2025-04': { income: 100000, expense: 50000 },
+const imageMap = {
+  'education.png': education,
+  'expence.png': expence,
+  'food.png': food,
+  'hobby.png': hobby,
+  'income.png': income,
+  'move.png': move,
+  'none.png': none,
+  'profit.png': profit,
+  'shopping.png': shopping,
 }
+const trans = useTrans()
 
-const currentData = computed(() => {
-  const key = `${selectedYear.value}-${String(selectedMonth.value).padStart(2, '0')}`
-  return dataByMonth[key] || { income: 0, expense: 0 }
+onMounted(() => {
+  trans.fetchTransactions()
 })
 
+const selectedYear = ref(new Date().getFullYear())
+const selectedMonth = ref(new Date().getMonth() + 1)
+
 const recentExpenses = ref([])
+const categories = ref([])
+
+const years = Array.from({ length: 5 }, (_, i) => 2023 + i)
+const months = Array.from({ length: 12 }, (_, i) => i + 1)
+
+// 'YYYY-MM' 형태로 변환
+const selectedMonthKey = computed(() => {
+  return `${selectedYear.value}-${String(selectedMonth.value).padStart(2, '0')}`
+})
+
+// 해당 월의 지출/수입 데이터 필터링
+const selectedExpense = computed(() => {
+  return trans.monthlyExpense.value[selectedMonthKey.value] || []
+})
+
+const selectedIncome = computed(() => {
+  return trans.monthlyIncome.value[selectedMonthKey.value] || []
+})
+
+// 총합 계산
+const totalExpense = computed(() => {
+  return selectedExpense.value.reduce(
+    (sum, item) => sum + Number(item.amount),
+    0,
+  )
+})
+
+const totalIncome = computed(() => {
+  return selectedIncome.value.reduce(
+    (sum, item) => sum + Number(item.amount),
+    0,
+  )
+})
+
+const netProfit = computed(() => {
+  return totalIncome.value - totalExpense.value
+})
+
+function resolveCategoryImage(imagePath = '@/icons/none.png') {
+  const key = imagePath.split('/').pop()
+  const image = imageMap[key]
+  if (!image) {
+    console.warn('⚠️ 이미지 매핑 실패:', key)
+  }
+  return image || none
+}
 
 onMounted(async () => {
   try {
     const [txRes, catRes] = await Promise.all([
-      axios.get(
-        'http://localhost:5001/transactions?type=1&_sort=dateTime&_order=desc&_limit=4',
-      ),
+      axios.get('http://localhost:5001/transactions?type=1'),
       axios.get('http://localhost:5001/categories'),
     ])
+    categories.value = catRes.data
+    console.log('✅ 카테고리 로딩 성공:', categories.value)
 
-    // catRes와 txRes의 데이터가 올바른지 체크
-    if (!txRes.data || !catRes.data) {
-      throw new Error('필수 데이터가 응답되지 않았습니다.')
-    }
+    const sortedTx = txRes.data
+      .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
+      .slice(0, 4)
 
-    const categories = catRes.data
-    const latest = txRes.data
-
-    // 데이터 가공 부분 (아이콘 경로만 수정)
-    recentExpenses.value = latest.map(tx => {
-      // categoryId 또는 category가 일치하는 카테고리를 찾음
-      const category = categories.find(
-        c => c.id === tx.categoryId || c.id === tx.category,
+    recentExpenses.value = sortedTx.map(tx => {
+      const categoryId = Number(tx.category) // tx.category가 숫자든 문자열이든 숫자로 만듦
+      const matchedCategory = categories.value.find(
+        c => Number(c.id) === categoryId,
       )
 
-      // 카테고리가 없다면 기본값 설정
-      const categoryName = category ? category.categoryName : '(카테고리 없음)'
-      const categoryImage = category ? category.image : 'none.png'
+      console.log(
+        '🔍 모든 카테고리 id:',
+        categories.value.map(c => c.id),
+      )
+      console.log(
+        '🔍 tx.category:',
+        tx.category,
+        '→ Number:',
+        Number(tx.category),
+      )
+
+      if (!catRes.data || !catRes.data.length) {
+        console.error('❌ categories 데이터 없음')
+        return
+      }
+
+      const imagePath = matchedCategory?.image || '@/icons/none.png'
+      const categoryImage = resolveCategoryImage(imagePath)
 
       return {
         ...tx,
-        categoryName,
+        categoryName: matchedCategory?.categoryName || '(카테고리 없음)',
         categoryImage,
-        // 날짜 포맷 설정
-        date: new Date(tx.dateTime).toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }),
-        isIncome: false,
+        date: new Date(tx.dateTime).toLocaleDateString('ko-KR'),
+        isIncome: tx.type === '2' || tx.type === 2,
       }
     })
-
-    console.log('✅ recentExpenses', recentExpenses.value)
-  } catch (err) {
-    console.error(
-      '❌ 최근 지출 데이터를 불러오지 못했습니다:',
-      err.message || err,
-    )
+  } catch (e) {
+    console.error('🚨 오류 발생:', e)
   }
 })
 </script>
 
 <template>
   <div class="homepage">
-    <div class="summary-wrapper">
-      <!-- 연도/월 셀렉트 -->
-      <div class="select-group">
-        <select v-model="selectedYear">
-          <option v-for="year in years" :key="year" :value="year">
-            {{ year }}년
-          </option>
-        </select>
-        <select v-model="selectedMonth">
-          <option v-for="month in months" :key="month" :value="month">
-            {{ month }}월
-          </option>
-        </select>
+    <!-- ✅ 연/월 선택 -->
+    <div class="select-group">
+      <select v-model="selectedYear">
+        <option v-for="year in years" :key="year" :value="year">
+          {{ year }}년
+        </option>
+      </select>
+
+      <select v-model="selectedMonth">
+        <option v-for="month in months" :key="month" :value="month">
+          {{ month }}월
+        </option>
+      </select>
+    </div>
+
+    <!-- ✅ 요약 카드 -->
+    <div class="summary-cards">
+      <div class="card income">
+        <router-link to="/total-income" class="link-icon">
+          <img src="@/icons/income.png" alt="총수입" class="card-icon" />
+        </router-link>
+        <div>총수입</div>
+        <div class="value-column">
+          <span>{{ totalIncome.toLocaleString() }}원</span>
+        </div>
       </div>
 
-      <!-- 요약 카드 -->
-      <div class="summary-cards">
-        <div class="card income">
-          <img src="@/icons/income.png" alt="총수입아이콘" class="card-icon" />
-          <div>총수입</div>
-          <div class="value-column">
-            <span>{{ currentData.income.toLocaleString() }}원</span>
-          </div>
+      <div class="card expense">
+        <router-link to="/total-expense" class="link-icon">
+          <img src="@/icons/expence.png" alt="총지출" class="card-icon" />
+        </router-link>
+        <div>총지출</div>
+        <div class="value-column">
+          <span>{{ totalExpense.toLocaleString() }}원</span>
         </div>
-        <div class="card expense">
-          <img src="@/icons/expence.png" alt="총지출아이콘" class="card-icon" />
-          <div>총지출</div>
-          <div class="value-column">
-            <span>{{ currentData.expense.toLocaleString() }}원</span>
-          </div>
-        </div>
-        <div class="card net">
-          <img src="@/icons/profit.png" alt="순이익아이콘" class="card-icon" />
-          <div>순이익</div>
-          <div class="value-column">
-            <span
-              >{{
-                (currentData.income - currentData.expense).toLocaleString()
-              }}원</span
-            >
-          </div>
+      </div>
+
+      <div class="card net">
+        <router-link to="/net-income" class="link-icon">
+          <img src="@/icons/profit.png" alt="순이익" class="card-icon" />
+        </router-link>
+        <div>순이익</div>
+        <div class="value-column">
+          <span>{{ netProfit.toLocaleString() }}원</span>
         </div>
       </div>
     </div>
 
-    <!-- ✅ 최근 지출 -->
-    <div v-for="item in recentExpenses" :key="item.id" class="transaction-item">
-      <div class="icon-box">
-        <img
-          :src="`@/icons/${item.categoryImage}`"
-          alt="카테고리 아이콘"
-          class="icon-img"
-        />
-      </div>
-
-      <div class="transaction-info">
-        <div class="label">
-          {{ item.categoryName }}<br />
-          <small>{{ item.date }}</small>
+    <!-- 최근 지출 내역 -->
+    <div class="bottom-section">
+      <div class="recent-transactions">
+        <div class="title-row">
+          <h2 class="title">최근 지출 내역</h2>
+          <router-link to="/transaction-history" class="link-icon">
+            <i class="fa-solid fa-angle-right"></i>
+          </router-link>
         </div>
+
         <div
-          class="amount"
-          :style="{ color: item.isIncome ? '#1e90ff' : '#d11d1d' }"
+          v-for="item in recentExpenses"
+          :key="item.id"
+          class="transaction-item"
         >
-          {{ item.isIncome ? '+' : '-' }}{{ item.amount.toLocaleString() }}원
+          <div class="icon-box">
+            <img
+              :src="item.categoryImage"
+              alt="카테고리 아이콘"
+              class="icon-img"
+            />
+          </div>
+
+          <div class="transaction-info">
+            <div class="label">
+              {{ item.categoryName }}<br />
+              <small>{{ item.date }}</small>
+            </div>
+            <div
+              class="amount"
+              :style="{ color: item.isIncome ? '#1e90ff' : '#ff4267' }"
+            >
+              {{ item.isIncome ? '+' : '-'
+              }}{{ item.amount.toLocaleString() }}원
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -155,7 +226,7 @@ onMounted(async () => {
 
 <style scoped>
 .homepage {
-  background-color: #281c9d;
+  background-color: #ffffff;
 }
 .summary-wrapper {
   margin-top: -1px;
@@ -167,9 +238,9 @@ onMounted(async () => {
 .select-group {
   display: flex;
   gap: 12px;
-  margin-top: -10px;
+  margin-top: 20px;
   margin-bottom: 15px;
-  margin-left: -10px;
+  margin-left: 10px;
 }
 
 select {
@@ -183,17 +254,19 @@ select {
 .summary-cards {
   display: flex;
   justify-content: center;
-  gap: 29px;
+  gap: 20px;
 }
 
 .card {
-  flex: 0 0 90px;
+  width: 95px;
+  height: 120px;
   padding: 10px;
   background-color: #f7f7f7;
   border-radius: 12px;
   text-align: center;
   font-size: 14px;
   font-family: 'Pretendard-Regular';
+  margin-bottom: 10px;
 }
 
 .card.income,
@@ -214,7 +287,9 @@ select {
   width: 40px;
   height: 40px;
 }
-
+.bottom-section {
+  background-color: #ffffff;
+}
 .recent-transactions {
   padding: 10px;
   margin-top: -30px;
@@ -226,13 +301,14 @@ select {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
 }
 
 .title-row .title {
   font-weight: bold;
   font-size: 20px;
   margin: 0;
+  background-color: #ffffff;
 }
 
 .transaction-list {
@@ -250,7 +326,7 @@ select {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 0px;
   position: relative;
-  top: 20px;
+  top: -10px;
 }
 
 .icon-box {
