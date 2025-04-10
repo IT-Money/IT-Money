@@ -46,7 +46,7 @@ const filteredList = computed(() =>
 const selectCategory = value => {
   store.category = value
   isOpen.value = false
-  search.value = value
+  search.value = ''
 }
 </script>
 
@@ -58,7 +58,7 @@ const selectCategory = value => {
     <div class="input-box" @click="isOpen = !isOpen">
       <input
         type="text"
-        v-model="search"
+        :value="store.category"
         placeholder="카테고리 검색"
         @focus="isOpen = true"
         readonly
