@@ -43,11 +43,6 @@ const filteredList = computed(() =>
   categoryList.value.filter(item => item.name.includes(search.value)),
 )
 
-// const filteredList = computed(() => {
-//   const list = store.type === 'expense' ? expenseCategories : incomeCategories
-//   return list.filter(item => item.includes(search.value))
-// })
-
 const selectCategory = value => {
   store.category = value
   isOpen.value = false
@@ -153,42 +148,3 @@ label {
   flex-shrink: 0;
 }
 </style>
-
-<!--
-<template>
-  <!-- 카테고리 선택 -->
-<!-- <div class="input-wrapper">
-    <label for="category">카테고리</label>
-
-    <select id="category" class="category-input" v-model="formStore.category">
-      <option disabled value="">카테고리를 선택하세요.</option>
-      <option v-for="item in categoryOptions" :key="item" :value="item">
-        {{ item }}
-      </option>
-    </select>
-  </div>
-</template>
-
-<style>
-.input-wrapper {
-  margin-bottom: 16px;
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 13px;
-  color: #555;
-}
-
-.category-input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  background-color: #fff;
-  color: #333;
-  outline: none;
-}
-</style> -->
