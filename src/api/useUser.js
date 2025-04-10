@@ -22,8 +22,21 @@ export const useUser = () => {
 }
 
 export const updateUserNameOnServer = async newName => {
-  const response = await axios.patch('/users/1', {
+  const response = await axios.patch('/user/1', {
     name: newName,
+  })
+  return response
+}
+
+export const updateUserEmailOnServer = async newEmail => {
+  const response = await axios.patch('/user/1', {
+    email: newEmail,
+  })
+  return response
+}
+export const updateUserPasswordOnServer = async newPassword => {
+  const response = await axios.patch('/user/1', {
+    password: newPassword,
   })
   return response
 }
