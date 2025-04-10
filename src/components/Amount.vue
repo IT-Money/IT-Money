@@ -40,4 +40,9 @@ label {
   color: #333;
   outline: none;
 }
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 </style>

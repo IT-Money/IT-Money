@@ -1,36 +1,67 @@
 <script setup>
 import { useFormStore } from '@/stores/formStore'
-import Amount from '@/components/Amount.vue'
-import CategoryInput from '@/components/CategoryInput.vue'
-import DatePickerInput from '@/components/DatePickerInput.vue'
-import Memo from '@/components/Memo.vue'
-import SaveCancelButton from '@/components/SaveCancelButton.vue'
+import { useRouter } from 'vue-router'
+import { saveTransaction } from '@/api/saveTransactions'
 import TypeToggle from '@/components/TypeToggle.vue'
+import DatePickerInput from '@/components/DatePickerInput.vue'
+import CategoryInput from '@/components/CategoryInput.vue'
+import Amount from '@/components/Amount.vue'
+import SaveCancelButton from '@/components/SaveCancelButton.vue'
+import Memo from '@/components/Memo.vue'
 
 const formStore = useFormStore()
+const router = useRouter()
 
-const save = () => {
-  if (!formStore.date) return alert('❗ 날짜를 선택해주세요.')
+const save = async () => {
+  if (!formStore.date || !formStore.category || !formStore.amount) {
+    return alert('❗ 날짜, 카테고리, 금액은 필수 입력 항목입니다.')
+  }
+  const selectedCategory = formStore.category
+  const selectedDate = new Date(formStore.date)
+  const now = new Date()
 
-  // 👉 필요한 모든 값은 formStore에서 가져옴
+  // 사용자가 고른 날짜 + 현재 시간 합치기
+  selectedDate.setHours(now.getHours())
+  selectedDate.setMinutes(now.getMinutes())
+  selectedDate.setSeconds(now.getSeconds())
+  selectedDate.setMilliseconds(now.getMilliseconds())
+
+  // YYYY-MM-DDTHH:mm:ss 포맷으로 변환
+  const year = selectedDate.getFullYear()
+  const month = String(selectedDate.getMonth() + 1).padStart(2, '0')
+  const day = String(selectedDate.getDate()).padStart(2, '0')
+  const hour = String(selectedDate.getHours()).padStart(2, '0')
+  const minute = String(selectedDate.getMinutes()).padStart(2, '0')
+  const second = String(selectedDate.getSeconds()).padStart(2, '0')
+
+  const dateTime = `${year}-${month}-${day}T${hour}:${minute}:${second}`
+
   const dataToSubmit = {
-    type: formStore.type,
-    date: formStore.date,
-    category: formStore.category,
-    amount: formStore.amount,
+    dateTime, // ✅ UTC 말고 로컬 기준으로 조합
+    type: formStore.type === 'income' ? '2' : '1',
+    category: selectedCategory,
+    amount: Number(formStore.amount),
     memo: formStore.memo,
   }
 
-  console.log('✅ 저장할 데이터:', dataToSubmit)
+  try {
+    console.log('저장할 데이터 :', dataToSubmit)
 
-  // 예: axios.post('/api/transactions', dataToSubmit)
-  formStore.resetForm()
+    await saveTransaction(dataToSubmit)
+    alert('✅ 저장 완료!')
+    formStore.resetForm()
+    router.go(-1)
+  } catch (e) {
+    alert('❌ 저장 실패')
+    console.error('에러:', e)
+  }
 }
-
 const cancel = () => {
   formStore.resetForm()
+  router.go(-1)
 }
 </script>
+
 <template>
   <div class="add-page">
     <h2>추가 거래 내역</h2>
