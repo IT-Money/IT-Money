@@ -6,16 +6,17 @@ import { onMounted } from 'vue'
 import useTrans from '@/stores/useTrans'
 const trans = useTrans()
 
-onMounted(() => {
-  trans.fetchTransactions()
+onMounted(async () => {
+  await trans.fetchTransactions()
   console.log('마운트됨')
+  // console.log('monthlyCategory:', trans.monthlyCategory.value)
 })
 </script>
 
 <template>
   <MonthlyHeader />
-  <!-- <MonthlyChart />
-  <MonthlyCategory /> -->
+  <!-- <MonthlyChart /> -->
+  <!-- <MonthlyCategory /> -->
 </template>
 
 <style scoped>
