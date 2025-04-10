@@ -1,4 +1,5 @@
 <script setup>
+// import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTransactionStore } from '@/stores/transaction'
 import ButtonLayout from '@/components/ButtonLayout.vue'
@@ -10,6 +11,20 @@ const transactionStore = useTransactionStore()
 
 const transactionId = route.params.id
 
+// // 모달 상태
+// const isModalOpen = ref(false)
+
+// // 모달 열기
+// const openModal = () => {
+//   isModalOpen.value = true
+// }
+
+// // 모달 닫기
+// const closeModal = () => {
+//   isModalOpen.value = false
+// }
+
+// 수정 페이지로 이동하기
 const goToEditPage = () => {
   router.push({ name: 'edit', params: { id: transactionId } })
 }
