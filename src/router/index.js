@@ -42,11 +42,13 @@ const router = createRouter({
       path: '/detail/:id',
       name: 'detail',
       component: () => import('@/views/DetailView.vue'),
+      props: true,
     },
     {
-      path: '/edit',
+      path: '/edit/:id',
       name: 'edit',
       component: () => import('@/views/EditPage.vue'),
+      props: true,
     },
     {
       path: '/add',
