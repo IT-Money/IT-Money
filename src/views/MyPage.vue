@@ -40,13 +40,13 @@ import AccountField from '@/components/AccountField.vue'
 
 /* 프로필 이미지 */
 .profile-image-container {
-  width: 110px;
-  height: 110px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   overflow: hidden;
   background-color: white;
   position: absolute;
-  bottom: -110px; /* 흰 박스와 절반 겹치게 */
+  bottom: -160px; /* 흰 박스와 절반 겹치게 */
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -63,12 +63,13 @@ import AccountField from '@/components/AccountField.vue'
   background-color: white;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-  padding: 80px 24px 32px; /* 위에 이미지 공간 확보 */
-  margin-top: 60px;
-  min-height: calc(100vh - 220px);
+  padding: 95px 24px 32px; /* 위에 이미지 공간 확보 */
+  margin-top: 100px;
+  min-height: calc(100vh - 250px);
 }
 
 .section-title {
-  font-size: 13px;
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 </style>
