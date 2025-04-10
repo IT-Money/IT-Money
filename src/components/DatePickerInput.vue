@@ -134,14 +134,14 @@ const selectDate = date => {
 .datepicker-wrapper {
   position: relative;
   margin-bottom: 16px;
-  font-family: 'Noto Sans', sans-serif;
+  border-color: #007bff;
 }
 
 /* 날짜 레이블 */
 .datepicker-wrapper label {
   display: block;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: bold;
   color: #333;
   margin-bottom: 6px;
   padding-left: 2px;
@@ -152,23 +152,26 @@ const selectDate = date => {
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
-  padding: 12px 16px;
-  border-radius: 16px;
+  padding: 8px 12px;
+  border-radius: 12px;
   background-color: white;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.input-container:hover{
+  border-color: #007bff;
 }
 
 /* 날짜 입력 필드 */
 .date-input {
   flex: 1;
   font-size: 14px;
-  color: #333;
   border: none;
   padding: 0;
   background: transparent;
   outline: none;
   cursor: pointer;
+  color: #333;
 }
 
 /* 달력 아이콘 */
@@ -186,9 +189,9 @@ const selectDate = date => {
   left: 0;
   z-index: 100;
   background: white;
-  border-radius: 16px;
+  border-radius: 14px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  padding: 16px;
+  padding: 10px;
   width: 100%;
   max-width: 320px;
 }
@@ -198,13 +201,12 @@ const selectDate = date => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .calendar-nav-btn {
-  background: none;
   border: none;
-  font-size: 18px;
+  font-size: 300px;
   color: #007bff;
   cursor: pointer;
   padding: 4px 8px;

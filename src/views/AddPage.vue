@@ -79,7 +79,12 @@ const cancel = () => {
   padding: 24px;
   max-width: 420px;
   margin: auto;
-  margin-bottom: 15px;
+  posiotion:relative;
+}
+h2 {
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 20px;
 }
 .text {
   font-family: 'Noto Sans', sans-serif;

@@ -30,15 +30,15 @@ const setType = value => {
   display: flex;
   justify-content: center;
   gap: 100px;
-  margin: 10px 0;
+  margin: 12px 0;
 }
 
 .toggle-btn {
-  padding: 12px 24px;
+  padding: 10px 22px;
   border-radius: 12px;
-  background-color: #f2f1f9;
-  color: #898989;
-  font-weight: 600;
+  background-color:#e0dff2;
+  color: black;
+  font-weight: 700;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;

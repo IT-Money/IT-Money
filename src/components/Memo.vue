@@ -28,6 +28,7 @@ label {
   font-size: 13px;
   color: #555;
   font-family: 'Noto Sans', sans-serif;
+  font-weight:bold;
 }
 
 .memo-input {
@@ -41,7 +42,11 @@ label {
   resize: none;
   outline: none;
   font-family: 'Noto Sans', sans-serif; /* 날짜 선택기에서 사용하는 폰트 */
-  padding: 10px;
-  margin-bottom: 16px;
+  padding: 8px;
+  margin-bottom: 10px;
 }
+.memo-input:hover{
+  border-color: #007bff;
+}
+
 </style>

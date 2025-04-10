@@ -35,17 +35,19 @@ button {
 }
 
 .save-btn:hover {
-  background-color: #2e16b3;
+  background-color: #e0dff2;
+  border-color: #007bff;
 }
 
 /* 취소 버튼 스타일 */
 .cancel-btn {
-  background-color: #f2f1f9;
-  color: #898989;
+  background-color: red;
+  color: white;
 }
 
 .cancel-btn:hover {
   background-color: #e0dff2;
+  border-color: #007bff;
 }
 
 /* 원형 버튼 스타일 */

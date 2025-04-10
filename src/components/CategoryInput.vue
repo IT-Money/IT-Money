@@ -60,7 +60,7 @@ const selectCategory = value => {
         type="text"
         :value="store.category"
         placeholder="카테고리 검색"
-        @focus="isOpen = true"
+        @focus="isOpen = false"
         readonly
       />
       <span class="icon">🔍</span>
@@ -94,7 +94,7 @@ label {
   margin-bottom: 6px;
   font-size: 13px;
   color: #555;
-  font-family: 'Noto Sans', sans-serif;
+  font-weight: bold;
 }
 
 /* 입력 박스 */
@@ -115,25 +115,24 @@ label {
   outline: none;
   cursor: pointer;
   background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-
+.input-box input:hover{
+  border-color: #007bff;
+}
 /* 검색 아이콘 */
 .input-box .icon {
   position: absolute;
   right: 12px;
-  font-size: 18px;
+  font-size: 20px;
   color: #333;
 }
 
 /* 드롭다운 */
 .dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 10;
   margin-top: 8px;
   background-color: #fff;
+  position: absolute;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   padding: 8px 0;
@@ -142,6 +141,10 @@ label {
   gap: 4px;
   max-height: 200px;
   overflow-y: auto;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 
 /* 드롭다운 항목 */
@@ -159,6 +162,9 @@ label {
 /* hover 효과 */
 .dropdown-item:hover {
   background-color: #f0f8ff;
+}
+.dropdown:hover {
+  border-color: #007bff;
 }
 
 /* 아이콘 */
