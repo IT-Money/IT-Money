@@ -29,20 +29,29 @@ const goToEditPage = () => {
   router.push({ name: 'edit', params: { id: transactionId } })
 }
 
-// const deleteTransaction = async () => {
+// const confirmDelete = async () => {
 //   try {
 //     await transactionStore.deleteTransaction(transactionId)
+//     closeModal()
 //     router.back()
 //     alert('거래가 삭제되었습니다.')
 //   } catch (error) {
-//     alert('거래 삭제 실패:', error)
+//     alert('거래 삭제 실패: ' + error)
 //   }
 // }
+
 const confirmDelete = async () => {
   try {
     await transactionStore.deleteTransaction(transactionId)
     closeModal()
-    router.back()
+
+    const previousRoute = router.options.history.state?.from
+    if (previousRoute) {
+      router.push({ name: previousRoute }) // 이전 경로로 이동
+    } else {
+      router.push({ name: 'transaction-history' }) // fallback 경로
+    }
+
     alert('거래가 삭제되었습니다.')
   } catch (error) {
     alert('거래 삭제 실패: ' + error)
