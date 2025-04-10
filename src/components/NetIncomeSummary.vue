@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 .summary-container {
-  padding: 0 20px;
+  padding: 0 16px;
   margin-top: 16px;
 }
 
@@ -47,13 +47,13 @@ export default {
 .title {
   font-size: 14px;
   color: #3b1fe0;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0;
 }
 
 .amount {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 27px;
+  font-weight: 800;
   color: #000;
   margin: 0;
 }

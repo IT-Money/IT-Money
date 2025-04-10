@@ -1,4 +1,3 @@
-<!-- views/NetIncome.vue -->
 <template>
   <section class="net-income-page">
     <!-- 1. 상단 요약 컴포넌트 -->
@@ -76,7 +75,7 @@ console.log('✅ 지출:', expenseList.value)
 
 <style scoped>
 .net-income-page {
-  height: 70vh; /* max-height 대신 명확하게 */
+  height: 70vh;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 8px;

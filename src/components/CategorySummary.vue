@@ -3,14 +3,15 @@
     <div class="summary-content">
       <!-- 왼쪽: 텍스트 정보 -->
       <div class="text-section">
-        <p class="title">{{ title }}</p>
+        <p class="title">{{ year }}년 {{ month }}월 {{ categoryName }} 금액</p>
         <p class="amount">{{ amount.toLocaleString() }}원</p>
         <span class="count-badge">총 {{ date }}회</span>
       </div>
 
       <!-- 오른쪽: 원형 아이콘 -->
       <div class="icon-section">
-        <img class="icon-image" src="@/icons/food.png" alt="아이콘" />
+        <img class="icon-image" :src="iconPath" :alt="categoryName" />
+        <!-- <img class="icon-image" src="@/icons/food.png" alt="아이콘" /> -->
       </div>
     </div>
   </div>
@@ -20,9 +21,20 @@
 export default {
   name: 'CategorySummary',
   props: {
-    title: String, // 예: "2025년 4월 식비 금액"
-    amount: Number, // 예: 262200
-    date: Number, // 예: 23
+    year: Number,
+    month: Number,
+    categoryName: String, // 예: "식비"
+    amount: Number,
+    date: Number, // 거래 횟수
+  },
+  computed: {
+    iconPath() {
+      try {
+        return new URL(`@/icons/${this.categoryName}.png`, import.meta.url).href
+      } catch {
+        return new URL(`@/icons/${this.categoryName}.png`, import.meta.url).href
+      }
+    },
   },
 }
 </script>
