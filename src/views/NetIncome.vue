@@ -28,6 +28,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router' // ✅ 라우터 사용
 import NetIncomeSummary from '@/components/NetIncomeSummary.vue'
 import NetIncomeCalc from '@/components/NetIncomeCalc.vue'
 import NetIncomeChange from '@/components/NetIncomeChange.vue'
@@ -35,26 +36,49 @@ import NetIncomeSection from '@/components/NetIncomeSection.vue'
 import wallet from '../../wallet_db.json' // 거래내역 JSON
 console.log('wallet', wallet) // 👈
 
-// ✅ 현재 선택 중인 연/월
-const year = ref('2025')
-const month = ref('04')
+// 1. 라우트에서 파라미터 추출 !!
+const route = useRoute()
+const year = ref(route.query.year || '2025')
+const month = ref(route.query.month || '04')
 
-// ✅ 거래내역 필터링
+// ✅ 현재 연/월에 해당하는 거래만 필터링
 const filteredTransactions = computed(() =>
   wallet.transactions.filter(t =>
     t.dateTime.startsWith(`${year.value}-${month.value}`),
   ),
 )
 
-// ✅ 수익/지출 분리
-const incomeList = computed(
-  () => filteredTransactions.value.filter(t => t.type === '2'), // '2'가 수익
-)
-const expenseList = computed(
-  () => filteredTransactions.value.filter(t => t.type === '1'), // '1'이 지출
+// ✅ 전달 연/월 구하기
+const prevYear = computed(() => {
+  if (month.value === '01') return String(Number(year.value) - 1)
+  return year.value
+})
+const prevMonth = computed(() => {
+  if (month.value === '01') return '12'
+  return String(Number(month.value) - 1).padStart(2, '0')
+})
+
+// ✅ 전달 거래 필터링
+const prevFilteredTransactions = computed(() =>
+  wallet.transactions.filter(t =>
+    t.dateTime.startsWith(`${prevYear.value}-${prevMonth.value}`),
+  ),
 )
 
-// ✅ 총합
+// ✅ 현재 월의 수익/지출 분리
+const incomeList = computed(() =>
+  filteredTransactions.value.filter(t => t.type === '2'),
+)
+const expenseList = computed(() =>
+  filteredTransactions.value.filter(t => t.type === '1'),
+)
+
+// ✅ 전달 월의 지출만 필터링
+const prevExpenseList = computed(() =>
+  prevFilteredTransactions.value.filter(t => t.type === '1'),
+)
+
+// ✅ 총합 계산
 const totalIncome = computed(() =>
   incomeList.value.reduce((acc, cur) => acc + cur.amount, 0),
 )
@@ -63,11 +87,16 @@ const totalExpense = computed(() =>
 )
 const netAmount = computed(() => totalIncome.value - totalExpense.value)
 
-// ✅ 전달 비교 (간단 예시)
-const compareWithLastMonth = computed(() => {
-  const lastMonthAmount = 13000 // mock
-  return netAmount.value - lastMonthAmount
-})
+// ✅ 전달 지출 총합 계산
+const prevTotalExpense = computed(() =>
+  prevExpenseList.value.reduce((acc, cur) => acc + cur.amount, 0),
+)
+
+// ✅ 전달 대비 지출 변화 계산
+const compareWithLastMonth = computed(
+  () => totalExpense.value - prevTotalExpense.value,
+)
+
 console.log('✅ 현재 연도:', year.value)
 console.log('✅ 현재 월:', month.value)
 console.log('✅ 필터 조건:', `${year.value}-${month.value}`)
