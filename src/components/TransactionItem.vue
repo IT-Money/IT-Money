@@ -1,5 +1,9 @@
 <template>
-  <div class="transaction-item" :class="{ 'no-divider': isLast }">
+  <div
+    class="transaction-item"
+    :class="{ 'no-divider': isLast }"
+    @click="handleClick"
+  >
     <div class="icon">
       <img :src="iconSrc" alt="category icon" />
     </div>
@@ -14,6 +18,11 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const handleClick = () => {
+  router.push({ name: 'detail', params: { id: props.tx.id } })
+}
 
 // ✅ props 받아서 변수로 저장
 const props = defineProps({
@@ -26,7 +35,6 @@ const props = defineProps({
     default: false,
   },
 })
-
 // ✅ computed 내부에서 props.tx로 접근해야 함
 const iconSrc = computed(() => {
   const iconMap = {
