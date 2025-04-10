@@ -19,6 +19,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router' // ✅ 라우터 사용
 import wallet from '../../wallet_db.json'
 import CategorySummary from '@/components/CategorySummary.vue'
 import TransactionList from '@/components/TransactionList.vue'
@@ -27,10 +28,12 @@ import TransactionList from '@/components/TransactionList.vue'
  * 0. 기본 설정
  * - 현재 보고 있는 연도와 월, 선택된 카테고리를 ref로 선언
  */
-const year = ref('2025')
-const month = ref('04')
-const selectedCategory = ref('교육')
-// 🔥 왜 테두리에 식비 카테고리의 핑크가 등장하는것?..
+
+// 1. 라우트에서 파라미터 추출 !!
+const route = useRoute()
+const year = ref(route.query.year || '2025')
+const month = ref(route.query.month || '04')
+const selectedCategory = ref(route.query.category || '식비')
 
 const categories = ref(wallet.categories)
 

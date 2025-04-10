@@ -13,7 +13,7 @@
 import { computed } from 'vue'
 import TransactionGroup from './TransactionGroup.vue'
 
-// ✅ defineProps로 props 선언 (Composition API 방식)
+// ✅ defineProps로 props 선언
 const props = defineProps({
   transactions: {
     type: Array,
