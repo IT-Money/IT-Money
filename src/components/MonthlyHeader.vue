@@ -21,9 +21,11 @@ onMounted(() => {
     </div>
     <p class="header_btm">
       {{
-        count.useMonthlyAmount(
-          trans.monthlyExpense.value[trans.currentMonth.value],
-        )
+        count
+          .useMonthlyAmount(
+            trans.monthlyExpense.value[trans.currentMonth.value],
+          )
+          .toLocaleString()
       }}
       원
     </p>
