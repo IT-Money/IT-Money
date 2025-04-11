@@ -18,8 +18,10 @@
     <!-- 커스텀 달력 popup -->
     <div v-if="isOpen" class="datepicker-popup">
       <div class="calendar-header">
-        <button @click="changeMonth(-1)">&#60;</button>
-        <span>{{ currentMonthName }} {{ currentYear }}</span>
+        <button @click="changeMonth(-1)" class="calendar-nave-btn">
+          &#60;
+        </button>
+        <span class="month-year">{{ currentMonthName }} {{ currentYear }}</span>
         <button @click="changeMonth(1)">&#62;</button>
       </div>
       <div class="calendar-grid">
@@ -127,13 +129,25 @@ const selectDate = date => {
   isOpen.value = false
 }
 </script>
-
-<style scoped>
+<style>
+/* 날짜 선택 전체 wrapper */
 .datepicker-wrapper {
   position: relative;
   margin-bottom: 16px;
+  border-color: #007bff;
 }
 
+/* 날짜 레이블 */
+.datepicker-wrapper label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 6px;
+  padding-left: 2px;
+}
+
+/* 입력 박스 스타일 (외곽) */
 .input-container {
   display: flex;
   align-items: center;
@@ -142,59 +156,116 @@ const selectDate = date => {
   border-radius: 12px;
   background-color: white;
   cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.input-container:hover{
+  border-color: #007bff;
 }
 
+/* 날짜 입력 필드 */
 .date-input {
   flex: 1;
-  border: none;
-  background: transparent;
   font-size: 14px;
+  border: none;
+  padding: 0;
+  background: transparent;
   outline: none;
   cursor: pointer;
+  color: #333;
 }
 
+/* 달력 아이콘 */
 .calendar-icon {
-  margin-left: 8px;
+  margin-left: 10px;
   font-size: 18px;
+  cursor: pointer;
+  color: #555;
 }
 
+/* 달력 팝업 */
 .datepicker-popup {
   position: absolute;
   top: 60px;
   left: 0;
   z-index: 100;
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  width: 230px;
+  width: 100%;
+  max-width: 320px;
 }
 
+/* 달력 상단 네비게이션 */
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 }
 
+.calendar-nav-btn {
+  border: none;
+  font-size: 300px;
+  color: #007bff;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.calendar-nav-btn:hover {
+  background-color: #f0f0f0;
+  color: #0056b3;
+}
+
+.month-year {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 달력 날짜 그리드 */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-gap: 5px;
+  gap: 6px;
 }
 
-.calendar-day,
+/* 요일 텍스트 */
+.calendar-day {
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  color: #888;
+}
+
+/* 날짜 셀 */
 .calendar-date {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px 0;
+  border-radius: 8px;
+  text-align: center;
   cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
 }
 
+.calendar-date:hover {
+  background-color: #f0f8ff;
+  color: #007bff;
+}
+
+/* 선택된 날짜 */
 .calendar-date.selected {
   background-color: #007bff;
   color: white;
+  font-weight: 600;
+}
+
+/* 비활성 날짜 */
+.calendar-date.disabled {
+  color: #ccc;
+  cursor: not-allowed;
 }
 </style>
