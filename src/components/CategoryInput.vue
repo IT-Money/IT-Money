@@ -60,7 +60,7 @@ const selectCategory = value => {
         type="text"
         :value="store.category"
         placeholder="카테고리 검색"
-        @focus="isOpen = true"
+        @focus="isOpen = false"
         readonly
       />
       <span class="icon">🔍</span>
@@ -82,23 +82,30 @@ const selectCategory = value => {
 </template>
 
 <style scoped>
+/* 카테고리 입력 필드 전체 박스 */
 .category-wrapper {
+  position: relative;
   margin-bottom: 16px;
 }
 
+/* 레이블 */
 label {
   display: block;
   margin-bottom: 6px;
   font-size: 13px;
   color: #555;
+  font-weight: bold;
 }
 
+/* 입력 박스 */
 .input-box {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
+/* 입력창 */
 .input-box input {
   width: 100%;
   padding: 10px 36px 10px 12px;
@@ -108,25 +115,39 @@ label {
   outline: none;
   cursor: pointer;
   background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
-
+.input-box input:hover{
+  border-color: #007bff;
+}
+/* 검색 아이콘 */
 .input-box .icon {
   position: absolute;
   right: 12px;
-  font-size: 16px;
+  font-size: 20px;
+  color: #333;
 }
+
+/* 드롭다운 */
 .dropdown {
   margin-top: 8px;
   background-color: #fff;
+  position: absolute;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   padding: 8px 0;
   display: flex;
-  flex-direction: column; /* 세로 정렬 */
+  flex-direction: column;
   gap: 4px;
   max-height: 200px;
   overflow-y: auto;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
+
+/* 드롭다운 항목 */
 .dropdown-item {
   display: flex;
   align-items: center;
@@ -138,9 +159,15 @@ label {
   border-radius: 8px;
 }
 
+/* hover 효과 */
 .dropdown-item:hover {
-  background-color: #f5f5f5;
+  background-color: #f0f8ff;
 }
+.dropdown:hover {
+  border-color: #007bff;
+}
+
+/* 아이콘 */
 .category-icon {
   width: 20px;
   height: 20px;
