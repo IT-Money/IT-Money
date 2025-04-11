@@ -1,35 +1,52 @@
 <script setup>
 import IncomeHeader from '@/components/IncomeHeader.vue'
 import IncomeList from '@/components/IncomeList.vue'
-import useTrans from '@/stores/useTrans'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 import { onMounted } from 'vue'
 import { computed } from 'vue'
-const trans = useTrans()
+import { onActivated } from 'vue'
+const trans = useTransactionsStore()
 
 // dailyIncome: 일별 수입액
 const dailyIncome = computed(() => {
   const group = {}
 
-  const currentData = trans.monthlyIncome.value[trans.currentMonth.value]
-  if (!currentData) return group
+  const currentData = trans.monthlyIncome
+  if (!currentData || currentData.length === 0) return group
 
-  trans.monthlyIncome.value[trans.currentMonth.value].forEach(trans => {
-    const eachDate = trans.dateTime.split('T')[0]
+  currentData.forEach(transaction => {
+    const eachDate = transaction.dateTime.split('T')[0]
     if (!group[eachDate]) group[eachDate] = []
-    group[eachDate].push(trans)
+    group[eachDate].push(transaction)
   })
   return group
 })
 onMounted(async () => {
   await trans.fetchTransactions()
-  console.log('expenselist 컴포넌트 실행')
   console.log('dailyIncome:', dailyIncome.value)
+})
+onActivated(() => {
+  trans.fetchTransactions()
 })
 </script>
 
 <template>
-  <IncomeHeader />
-  <IncomeList :daily-income="dailyIncome" />
+  <div class="totalincome_page">
+    <IncomeHeader />
+    <IncomeList :daily-income="dailyIncome" />
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.totalincome_page {
+  height: 100%;
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  padding-bottom: 80px;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+</style>

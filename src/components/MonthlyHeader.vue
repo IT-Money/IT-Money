@@ -1,32 +1,27 @@
 <script setup>
 import { onMounted } from 'vue'
-import useTrans from '@/stores/useTrans.js'
-import useCount from '@/stores/useCount.js'
+import { useTransactionsStore } from '@/stores/TransactionStore'
+import { useCountStore } from '@/stores/CountStore'
 
-const trans = useTrans()
-const count = useCount()
+const trans = useTransactionsStore()
+const count = useCountStore()
 
 onMounted(() => {
-  trans.fetchTransactions()
-  console.log('currentMonth값', trans.currentMonth)
+  trans.fetchTransactions().then(() => {
+    console.log('📦 monthlyExpense:', trans.monthlyExpense.length)
+  })
 })
 </script>
 
 <template>
   <div class="header_con">
     <div class="header_top">
-      <i class="fa-solid fa-angle-left"></i>
+      <i class="fa-solid fa-angle-left" @click="trans.gotoPrevMonth"></i>
       <span>{{ trans.nowMonth }}월 </span>
-      <i class="fa-solid fa-angle-right"></i>
+      <i class="fa-solid fa-angle-right" @click="trans.gotoNextMonth"></i>
     </div>
     <p class="header_btm">
-      {{
-        count
-          .useMonthlyAmount(
-            trans.monthlyExpense.value[trans.currentMonth.value],
-          )
-          .toLocaleString()
-      }}
+      {{ count.useMonthlyAmount(trans.monthlyExpense).toLocaleString() }}
       원
     </p>
   </div>

@@ -1,12 +1,13 @@
 <template>
   <div class="transaction-group">
-    <p class="group-date">{{ date }}</p>
+    <p class="group-date">{{ dateTime }}</p>
     <div class="transaction-card">
       <!-- 거래 목록 반복 출력 -->
       <TransactionItem
         v-for="(tx, index) in transactions"
         :key="index"
         :tx="tx"
+        :categoryInfo="categoryInfo"
         :isLast="index === transactions.length - 1"
       />
     </div>
@@ -16,14 +17,18 @@
 <script setup>
 import TransactionItem from './TransactionItem.vue'
 
-const props = defineProps({
-  date: {
+defineProps({
+  dateTime: {
     type: String,
     required: true,
   },
   transactions: {
     type: Array,
     required: true,
+  },
+  categoryInfo: {
+    type: Object,
+    default: () => ({}),
   },
 })
 </script>

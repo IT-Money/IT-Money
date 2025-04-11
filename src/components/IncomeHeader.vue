@@ -1,10 +1,10 @@
 <script setup>
-import useTrans from '@/stores/useTrans'
-import useCount from '@/stores/useCount'
+import { useTransactionsStore } from '@/stores/TransactionStore'
+import { useCountStore } from '@/stores/CountStore'
 import { onMounted } from 'vue'
 
-const trans = useTrans()
-const count = useCount()
+const trans = useTransactionsStore()
+const count = useCountStore()
 
 onMounted(() => {
   trans.fetchTransactions()
@@ -16,23 +16,12 @@ onMounted(() => {
     <div class="summary-content">
       <!-- 왼쪽: 텍스트 정보 -->
       <div class="text-section">
-        <p class="title">
-          {{ trans.nowYear.value }}년 {{ trans.nowMonth.value }}월 총수입
-        </p>
+        <p class="title">{{ trans.nowYear }}년 {{ trans.nowMonth }}월 총수입</p>
         <p class="amount">
-          {{
-            count
-              .useMonthlyAmount(
-                trans.monthlyIncome.value[trans.currentMonth.value],
-              )
-              .toLocaleString()
-          }}원
+          {{ count.useMonthlyAmount(trans.monthlyIncome).toLocaleString() }}원
         </p>
         <span class="count-badge"
-          >총
-          {{
-            trans.monthlyIncome.value[trans.currentMonth.value]?.length || 0
-          }}회</span
+          >총 {{ trans.monthlyIncome?.length || 0 }}회</span
         >
       </div>
 

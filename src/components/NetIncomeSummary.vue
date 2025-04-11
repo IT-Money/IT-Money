@@ -1,3 +1,10 @@
+<script setup>
+defineProps({
+  year: [Number, String],
+  month: [Number, String],
+  netAmount: Number, // 순이익 금액
+})
+</script>
 <template>
   <div class="summary-container">
     <div class="summary-content">
@@ -14,17 +21,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'NetIncomeSummary',
-  props: {
-    year: [Number, String],
-    month: [Number, String],
-    netAmount: Number, // 순이익 금액
-  },
-}
-</script>
 
 <style scoped>
 .summary-container {
@@ -59,7 +55,7 @@ export default {
 }
 
 .icon-section {
-  background-color: #d2e7ff; /* 순이익에 어울리는 연한 블루 */
+  background-color: var(--semantic-sky);
   border-radius: 50%;
   padding: 12px;
   width: 48px;
