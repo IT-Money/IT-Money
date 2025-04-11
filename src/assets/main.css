@@ -54,3 +54,8 @@ a {
   box-shadow: 9px 11px 5px 0px rgba(125, 124, 125, 1);
   border-radius: var(--space-s);
 }
+
+.center {
+  display: block;
+  margin: auto;
+}
