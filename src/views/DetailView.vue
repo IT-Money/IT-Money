@@ -39,7 +39,6 @@ const confirmDelete = async () => {
     alert('거래 삭제 실패: ' + error)
   }
 }
-
 </script>
 
 <template>
@@ -84,7 +83,7 @@ const confirmDelete = async () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -98,7 +97,7 @@ const confirmDelete = async () => {
   padding: 24px;
   text-align: center;
   width: 280px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .modal p {

@@ -1,8 +1,30 @@
 <script setup>
 import { useCountStore } from '@/stores/CountStore'
 import { computed } from 'vue'
+import educationIcon from '@/icons/education.png'
+import expenceIcon from '@/icons/expence.png'
+import foodIcon from '@/icons/food.png'
+import hobbyIcon from '@/icons/hobby.png'
+import incomeIcon from '@/icons/income.png'
+import moveIcon from '@/icons/move.png'
+import noneIcon from '@/icons/none.png'
+import profitIcon from '@/icons/profit.png'
+import shoppingIcon from '@/icons/shopping.png'
 
 const count = useCountStore()
+
+// import한 아이콘 묶어주기
+const iconMap = {
+  '@/icons/food.png': foodIcon,
+  '@/icons/shopping.png': shoppingIcon,
+  '@/icons/education.png': educationIcon,
+  '@/icons/expence.png': expenceIcon,
+  '@/icons/hobby.png': hobbyIcon,
+  '@/icons/income.png': incomeIcon,
+  '@/icons/move.png': moveIcon,
+  '@/icons/none.png': noneIcon,
+  '@/icons/profit.png': profitIcon,
+}
 
 const props = defineProps({
   categoryInfo: {
@@ -28,13 +50,10 @@ const totalAmount = computed(() => {
   return count.useMonthlyAmount(props.transactions)
 })
 
-// 아이콘 경로 처리
+// 아이콘 경로 처리 (TransactionItem과 동일한 방식으로 변경)
 const iconPath = computed(() => {
   const imagePath = props.categoryInfo.image
-  if (imagePath.startsWith('@/')) {
-    return imagePath.replace('@', '..')
-  }
-  return imagePath
+  return iconMap[imagePath] || noneIcon
 })
 </script>
 
@@ -116,8 +135,8 @@ const iconPath = computed(() => {
 }
 
 .icon-image {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 </style>

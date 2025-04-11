@@ -1,13 +1,13 @@
 <script setup>
 import CategorySummary from '@/components/CategorySummary.vue'
 import TransactionList from '@/components/TransactionList.vue'
-import { useTransactionStore } from '@/stores/TransactionStore'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 import { useCategoryStore } from '@/stores/category'
 import { useRoute } from 'vue-router'
 import { computed, onMounted } from 'vue'
 
 const route = useRoute()
-const trans = useTransactionStore()
+const trans = useTransactionsStore()
 const categoryStore = useCategoryStore()
 
 // 라우트 파라미터 가져오기

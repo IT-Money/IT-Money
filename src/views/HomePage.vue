@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
-import useTrans from '@/stores/useTrans'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useTransactionsStore } from '@/stores/TransactionStore'
+import { useCountStore } from '@/stores/CountStore'
+import { useCategoryStore } from '@/stores/category'
 import education from '@/icons/education.png'
 import expence from '@/icons/expence.png'
 import food from '@/icons/food.png'
@@ -23,48 +24,56 @@ const imageMap = {
   'profit.png': profit,
   'shopping.png': shopping,
 }
-const trans = useTrans()
 
-onMounted(() => {
-  trans.fetchTransactions()
-})
+const trans = useTransactionsStore()
+const count = useCountStore()
+const categoryStore = useCategoryStore()
 
+// 선택된 연/월 (로컬 상태)
 const selectedYear = ref(new Date().getFullYear())
 const selectedMonth = ref(new Date().getMonth() + 1)
 
 const recentExpenses = ref([])
-const categories = ref([])
-
 const years = Array.from({ length: 5 }, (_, i) => 2023 + i)
 const months = Array.from({ length: 12 }, (_, i) => i + 1)
 
-// 'YYYY-MM' 형태로 변환
-const selectedMonthKey = computed(() => {
-  return `${selectedYear.value}-${String(selectedMonth.value).padStart(2, '0')}`
+// 선택된 연/월 변경 시 TransactionStore의 currentDate 업데이트
+watch([selectedYear, selectedMonth], ([year, month]) => {
+  const newDate = new Date(year, month - 1, 1)
+  trans.currentDate = newDate
+  loadRecentExpenses()
 })
 
-// 해당 월의 지출/수입 데이터 필터링
+// 해당 월의 지출/수입 데이터 필터링 (Pinia 스토어 활용)
 const selectedExpense = computed(() => {
-  return trans.monthlyExpense.value[selectedMonthKey.value] || []
+  return trans.transactions.filter(tx => {
+    const txDate = new Date(tx.dateTime)
+    return (
+      txDate.getFullYear() === selectedYear.value &&
+      txDate.getMonth() + 1 === selectedMonth.value &&
+      tx.type === '1'
+    )
+  })
 })
 
 const selectedIncome = computed(() => {
-  return trans.monthlyIncome.value[selectedMonthKey.value] || []
+  return trans.transactions.filter(tx => {
+    const txDate = new Date(tx.dateTime)
+    return (
+      txDate.getFullYear() === selectedYear.value &&
+      txDate.getMonth() + 1 === selectedMonth.value &&
+      tx.type === '2'
+    )
+  })
 })
 
-// 총합 계산
+// 총합 계산 (CountStore 활용)
 const totalExpense = computed(() => {
-  return selectedExpense.value.reduce(
-    (sum, item) => sum + Number(item.amount),
-    0,
-  )
+  return count.useMonthlyAmount(selectedExpense.value)
 })
 
 const totalIncome = computed(() => {
-  return selectedIncome.value.reduce(
-    (sum, item) => sum + Number(item.amount),
-    0,
-  )
+  return count.useMonthlyAmount(selectedIncome.value)
 })
 
 const netProfit = computed(() => {
@@ -80,40 +89,30 @@ function resolveCategoryImage(imagePath = '@/icons/none.png') {
   return image || none
 }
 
-onMounted(async () => {
+// 최근 지출 내역 로드
+async function loadRecentExpenses() {
   try {
-    const [txRes, catRes] = await Promise.all([
-      axios.get('http://localhost:5001/transactions?type=1'),
-      axios.get('http://localhost:5001/categories'),
-    ])
-    categories.value = catRes.data
-    console.log('✅ 카테고리 로딩 성공:', categories.value)
+    // 트랜잭션과 카테고리 데이터가 없으면 로드
+    if (!trans.transactions.length) {
+      await trans.fetchTransactions()
+    }
 
-    const sortedTx = txRes.data
+    if (!categoryStore.categories.length) {
+      await categoryStore.fetchCategories()
+    }
+
+    // 최근 지출 트랜잭션 필터링 (타입이 1인 것)
+    const expenseTransactions = trans.transactions
+      .filter(tx => tx.type === '1')
       .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime))
       .slice(0, 4)
 
-    recentExpenses.value = sortedTx.map(tx => {
-      const categoryId = Number(tx.category) // tx.category가 숫자든 문자열이든 숫자로 만듦
-      const matchedCategory = categories.value.find(
-        c => Number(c.id) === categoryId,
+    // 카테고리 정보와 함께 맵핑
+    recentExpenses.value = expenseTransactions.map(tx => {
+      const categoryId = tx.category
+      const matchedCategory = categoryStore.categories.find(
+        c => c.id === categoryId,
       )
-
-      console.log(
-        '🔍 모든 카테고리 id:',
-        categories.value.map(c => c.id),
-      )
-      console.log(
-        '🔍 tx.category:',
-        tx.category,
-        '→ Number:',
-        Number(tx.category),
-      )
-
-      if (!catRes.data || !catRes.data.length) {
-        console.error('❌ categories 데이터 없음')
-        return
-      }
 
       const imagePath = matchedCategory?.image || '@/icons/none.png'
       const categoryImage = resolveCategoryImage(imagePath)
@@ -123,12 +122,20 @@ onMounted(async () => {
         categoryName: matchedCategory?.categoryName || '(카테고리 없음)',
         categoryImage,
         date: new Date(tx.dateTime).toLocaleDateString('ko-KR'),
-        isIncome: tx.type === '2' || tx.type === 2,
+        isIncome: tx.type === '2',
       }
     })
   } catch (e) {
     console.error('🚨 오류 발생:', e)
   }
+}
+
+onMounted(async () => {
+  await Promise.all([
+    trans.fetchTransactions(),
+    categoryStore.fetchCategories(),
+  ])
+  loadRecentExpenses()
 })
 </script>
 
@@ -209,7 +216,7 @@ onMounted(async () => {
                 :style="{ color: item.isIncome ? '#1e90ff' : '#ff4267' }"
               >
                 {{ item.isIncome ? '+' : '-'
-                }}{{ item.amount.toLocaleString() }}원
+                }}{{ Number(item.amount).toLocaleString() }}원
               </div>
             </div>
           </div>
@@ -218,7 +225,6 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-
 <style scoped>
 .homepage {
   background-color: #281c9d;

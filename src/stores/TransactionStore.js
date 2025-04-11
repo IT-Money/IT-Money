@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from '@/utils/axios'
 
-export const useTransactionStore = defineStore('transaction', () => {
+export const useTransactionsStore = defineStore('anotherTransaction', () => {
   // 상태(state)
   const currentDate = ref(new Date())
   const transactions = ref([])

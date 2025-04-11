@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useTransactionStore } from '@/stores/TransactionStore'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 import { useCountStore } from '@/stores/CountStore'
 
-const trans = useTransactionStore()
+const trans = useTransactionsStore()
 const count = useCountStore()
 
 onMounted(() => {

@@ -1,5 +1,5 @@
 <script setup>
-import { useTransactionStore } from '@/stores/TransactionStore'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 import { useCountStore } from '@/stores/CountStore'
 import { useCategoryStore } from '@/stores/category'
 import { computed } from 'vue'
@@ -7,7 +7,7 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { watch } from 'vue'
 
-const trans = useTransactionStore()
+const trans = useTransactionsStore()
 const count = useCountStore()
 const router = useRouter()
 const categoryStore = useCategoryStore()

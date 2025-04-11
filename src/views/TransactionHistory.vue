@@ -2,9 +2,9 @@
 import MonthlyHeader from '@/components/MonthlyHeader.vue'
 import MonthlyCategory from '@/components/MonthlyCategory.vue'
 import { onMounted } from 'vue'
-import { useTransactionStore } from '@/stores/TransactionStore'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 
-const trans = useTransactionStore()
+const trans = useTransactionsStore()
 
 onMounted(async () => {
   await trans.fetchTransactions()

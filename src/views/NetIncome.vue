@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { useTransactionStore } from '@/stores/TransactionStore'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 import { useCountStore } from '@/stores/CountStore'
 import { useCategoryStore } from '@/stores/category'
 import { useRoute } from 'vue-router'
@@ -10,7 +10,7 @@ import NetIncomeChange from '@/components/NetIncomeChange.vue'
 import NetIncomeSection from '@/components/NetIncomeSection.vue'
 
 // Pinia 스토어 사용
-const trans = useTransactionStore()
+const trans = useTransactionsStore()
 const count = useCountStore()
 const categoryStore = useCategoryStore()
 const route = useRoute()
@@ -112,9 +112,13 @@ onMounted(async () => {
 
 <style scoped>
 .net-income-page {
-  height: 70vh;
-  overflow-y: auto;
+  height: 100%;
+  max-height: 600px;
   overflow-x: hidden;
   padding: 8px;
+  padding-bottom: 80px;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 </style>

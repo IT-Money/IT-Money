@@ -1,10 +1,11 @@
 <script setup>
 import ExpenseHeader from '@/components/ExpenseHeader.vue'
 import ExpenseList from '@/components/ExpenseList.vue'
-import { useTransactionStore } from '@/stores/TransactionStore'
+import { useTransactionsStore } from '@/stores/TransactionStore'
 import { onMounted, computed } from 'vue'
+import { onActivated } from 'vue'
 
-const trans = useTransactionStore()
+const trans = useTransactionsStore()
 
 // dailyExpense: 일별 지출액
 const dailyExpense = computed(() => {
@@ -29,6 +30,9 @@ onMounted(async () => {
   console.log('expenselist 컴포넌트 실행')
   console.log('dailyExpense:', dailyExpense.value)
 })
+onActivated(() => {
+  trans.fetchTransactions()
+})
 </script>
 
 <template>
@@ -40,9 +44,16 @@ onMounted(async () => {
 
 <style scoped>
 .totalexpense_page {
-  height: 70vh;
+  /* 기존 스타일 유지하면서 수정 */
+  height: 100%;
+  max-height: 600px; /* #app의 높이(670px)보다 작게 설정 */
   overflow-y: auto;
   overflow-x: hidden;
   padding: 8px;
+  padding-bottom: 80px; /* 하단 여백 추가 */
+
+  /* 스크롤바 스타일링 (옵션) */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 </style>

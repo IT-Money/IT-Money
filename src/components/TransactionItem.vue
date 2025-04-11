@@ -126,8 +126,8 @@ function goToDetailView() {
 }
 
 .category-icon {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
