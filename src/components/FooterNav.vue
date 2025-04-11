@@ -1,7 +1,7 @@
 <template>
   <div class="footer-wrapper">
     <nav class="footer-nav">
-      <router-link to="/home" class="nav-icon">
+      <router-link to="/" class="nav-icon">
         <i class="fa-solid fa-house"></i>
       </router-link>
       <router-link to="/my-page" class="nav-icon">
